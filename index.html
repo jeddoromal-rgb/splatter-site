@@ -3,957 +3,1366 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Splatter - Brand Visibility Agent</title>
+  <title>Splatter - Brand Visibility Agent by Riverflex</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700;800&family=DM+Serif+Display&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700;800&family=DM+Serif+Display&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg: #efebe6;
-      --panel: #f6f3ef;
-      --line: #d8d0c7;
+      --panel: #f7f4f0;
+      --white: #fcfaf7;
+      --line: #d7cfc5;
       --text: #2d2926;
-      --muted: #867d75;
+      --muted: #8a837b;
       --sidebar: #221f1c;
       --sidebar-line: #413a34;
-      --sidebar-text: #bfb5aa;
+      --sidebar-text: #c7bcb1;
+      --hero: #282320;
+      --hero-2: #312a25;
+      --orange: #e36c00;
+      --orange-soft: #dda00a;
       --green: #2f8a52;
-      --green-soft: #e6f1e8;
-      --blue: #214f77;
-      --orange: #dd930b;
-      --orange-strong: #e36c00;
+      --green-soft: #e7f1e8;
+      --blue: #1e5885;
+      --blue-soft: #e7eef5;
+      --brown: #8c5c3c;
+      --brown-soft: #f2ebe4;
       --red: #c43b1c;
-      --red-soft: #f5dfd8;
-      --brown: #8b5b3a;
-      --shadow: 0 0 0 1px rgba(93, 80, 67, 0.08);
-      --radius: 12px;
+      --red-soft: #f6e1db;
+      --shadow: 0 0 0 1px rgba(93, 80, 67, 0.10);
+      --radius: 14px;
     }
 
     * { box-sizing: border-box; }
     html, body { margin: 0; padding: 0; }
     body {
-      font-family: 'DM Sans', system-ui, -apple-system, sans-serif;
-      color: var(--text);
+      font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
       background: var(--bg);
+      color: var(--text);
     }
-
-    .app {
-      min-height: 100vh;
-      display: grid;
-      grid-template-columns: 220px 1fr;
+    h1, h2, h3, h4 {
+      font-family: 'DM Serif Display', Georgia, serif;
+      margin: 0;
+      color: var(--text);
+      line-height: 1.1;
     }
+    p { margin: 0; }
+    button { font: inherit; }
 
-    .sidebar {
-      background: var(--sidebar);
-      color: white;
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
+    .hidden { display: none !important; }
+
+    .topbar {
       position: sticky;
       top: 0;
-    }
-
-    .brand {
-      padding: 24px 18px 20px;
+      z-index: 50;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 22px;
+      background: var(--hero);
       border-bottom: 1px solid var(--sidebar-line);
     }
-
-    .brand h1 {
-      margin: 0;
-      font-family: 'DM Serif Display', Georgia, serif;
-      font-size: 24px;
-      line-height: 1;
-      color: #fff;
-    }
-
-    .brand .tag,
-    .brand .byline {
-      font-size: 10px;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-      color: #9d9388;
-      margin-top: 6px;
-    }
-
-    .brand .byline {
-      text-transform: none;
-      letter-spacing: 0;
-      font-size: 12px;
-      color: #7e756c;
-    }
-
-    .nav {
-      padding: 10px 0;
-      border-bottom: 1px solid var(--sidebar-line);
-    }
-
-    .nav button {
-      width: 100%;
-      background: transparent;
-      color: var(--sidebar-text);
-      border: 0;
-      text-align: left;
-      font: inherit;
-      padding: 11px 18px;
+    .brand-btn, .nav-btn, .cta, .card-link, .sidebar-tab, .back-btn, .action-btn {
       cursor: pointer;
-      border-left: 3px solid transparent;
-      transition: background 0.15s ease;
-      font-size: 14px;
+      border: 0;
+      background: transparent;
     }
-
-    .nav button:hover { background: rgba(255,255,255,0.04); }
-    .nav button.active {
-      background: rgba(255,255,255,0.08);
+    .brand-btn {
+      display: flex;
+      align-items: center;
+      gap: 9px;
       color: white;
-      border-left-color: #ff6f1a;
+    }
+    .brand-title {
+      font-family: 'DM Serif Display', Georgia, serif;
+      font-size: 20px;
+      font-weight: 700;
+      color: white;
+    }
+    .brand-sub {
+      font-size: 10px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1.4px;
+      color: var(--orange);
+    }
+    .topnav {
+      display: flex;
+      gap: 6px;
+    }
+    .nav-btn {
+      color: #d2c8bc;
+      padding: 8px 16px;
+      border-radius: 4px;
+      font-size: 12px;
       font-weight: 700;
     }
+    .nav-btn.active {
+      background: #4a433d;
+      color: white;
+    }
 
-    .sidebar-footer {
-      margin-top: auto;
-      padding: 18px;
-      color: #867d75;
-      font-size: 12px;
+    .page { min-height: calc(100vh - 57px); }
+
+    .hero {
+      min-height: 430px;
+      background: linear-gradient(90deg, var(--hero) 0%, var(--hero-2) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 48px 24px;
+      color: white;
+    }
+    .hero-inner { max-width: 720px; }
+    .eyebrow {
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 14px;
+    }
+    .hero h1 {
+      color: white;
+      font-size: 64px;
+      margin-bottom: 16px;
+    }
+    .hero-copy {
+      max-width: 700px;
+      margin: 0 auto 28px;
+      font-size: 18px;
       line-height: 1.5;
+      color: #d8d0c6;
     }
-
-    .sidebar-footer .label {
-      font-size: 12px;
-      margin-bottom: 8px;
-      color: #a79d93;
-    }
-
-    .main {
-      padding: 26px 26px 48px;
-    }
-
-    .view {
-      max-width: 1220px;
-      margin: 0 auto;
-    }
-
-    h2.page-title {
-      margin: 0;
-      font-family: 'DM Serif Display', Georgia, serif;
-      font-size: 26px;
-      line-height: 1.15;
-      color: #2f2a27;
-    }
-
-    .subtitle {
-      margin-top: 10px;
-      color: var(--muted);
-      font-size: 14px;
-      line-height: 1.5;
-    }
-
-    .stats {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
+    .hero-actions {
+      display: flex;
       gap: 14px;
-      margin-top: 24px;
+      justify-content: center;
+      flex-wrap: wrap;
     }
+    .cta {
+      padding: 13px 26px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 800;
+    }
+    .cta.primary { background: var(--orange); color: white; }
+    .cta.secondary {
+      color: #d7cec3;
+      border: 1px solid #4b443e;
+      background: transparent;
+    }
+
+    .section-shell {
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 54px 22px 74px;
+    }
+    .section-title-block {
+      text-align: center;
+      margin-bottom: 34px;
+    }
+    .section-kicker {
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 2.2px;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 12px;
+    }
+    .section-title {
+      font-size: 30px;
+      margin-bottom: 8px;
+    }
+    .section-sub {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .stats-grid,
+    .solution-grid,
+    .nav-card-grid,
+    .arch-streams,
+    .dashboard-top-grid,
+    .dashboard-mid-grid,
+    .review-top-grid,
+    .setup-grid,
+    .search-bottom-grid,
+    .kpi-grid {
+      display: grid;
+      gap: 16px;
+    }
+
+    .stats-grid { grid-template-columns: repeat(3, 1fr); max-width: 810px; margin: 0 auto 54px; }
+    .solution-grid { grid-template-columns: repeat(3, 1fr); margin-bottom: 28px; }
+    .nav-card-grid { grid-template-columns: repeat(3, 1fr); }
+    .arch-streams { grid-template-columns: repeat(3, 1fr); }
+    .dashboard-top-grid { grid-template-columns: repeat(4, 1fr); margin-bottom: 22px; }
+    .dashboard-mid-grid { grid-template-columns: 1fr 1fr; margin-bottom: 22px; }
+    .review-top-grid { grid-template-columns: 1fr 1fr; margin-bottom: 22px; }
+    .setup-grid { grid-template-columns: 1fr 1fr; gap: 26px; }
+    .search-bottom-grid { grid-template-columns: 1.1fr 1fr; gap: 18px; }
+    .kpi-grid { grid-template-columns: 1fr; }
 
     .card {
-      background: var(--panel);
+      background: var(--white);
       border: 1px solid var(--line);
       border-radius: var(--radius);
       box-shadow: var(--shadow);
+      padding: 20px;
     }
-
-    .stat-card {
-      padding: 22px 18px;
-      text-align: center;
-      min-height: 120px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
+    .card.pad-lg { padding: 22px; }
+    .card.dark {
+      background: linear-gradient(90deg, var(--hero) 0%, var(--hero-2) 100%);
+      border-color: #4b443e;
+      color: white;
     }
+    .card.border-top-blue { border-top: 3px solid var(--blue); }
+    .card.border-top-green { border-top: 3px solid var(--green); }
+    .card.border-top-brown { border-top: 3px solid var(--brown); }
+    .card.border-left-blue { border-left: 3px solid var(--blue); }
+    .card.border-left-green { border-left: 3px solid var(--green); }
+    .card.border-left-brown { border-left: 3px solid var(--brown); }
+    .card.border-left-red { border-left: 3px solid var(--red); }
 
     .stat-value {
+      text-align: center;
       font-family: 'DM Serif Display', Georgia, serif;
-      font-size: 30px;
-      line-height: 1;
-      margin-bottom: 10px;
-    }
-
-    .stat-label {
+      font-size: 28px;
       font-weight: 700;
-      font-size: 14px;
+      color: var(--orange);
+      margin-bottom: 6px;
     }
+    .stat-title { text-align: center; font-size: 14px; font-weight: 700; color: var(--text); }
+    .stat-sub { text-align: center; font-size: 12px; color: var(--muted); margin-top: 4px; }
 
-    .stat-note {
-      margin-top: 4px;
-      font-size: 12px;
-      color: #aaa096;
+    .feature-title { font-size: 14px; font-weight: 800; margin-bottom: 8px; }
+    .feature-copy { font-size: 12px; line-height: 1.45; color: #504941; }
+    .nav-card-title { font-size: 13px; font-weight: 800; margin-bottom: 6px; }
+    .nav-card-copy { font-size: 12px; color: #5a544c; }
+    .nav-card-title.blue { color: var(--blue); }
+    .nav-card-title.orange { color: var(--orange); }
+    .nav-card-title.green { color: var(--green); }
+
+    .arch-runtime-title {
+      font-size: 15px;
+      color: white;
+      margin-bottom: 14px;
     }
-
-    .grid-2 {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-      margin-top: 24px;
-    }
-
-    .section {
-      padding: 20px 22px;
-    }
-
-    .section h3 {
-      margin: 0;
-      font-family: 'DM Serif Display', Georgia, serif;
-      font-size: 18px;
-      line-height: 1.2;
-    }
-
-    .section .section-sub {
-      color: var(--muted);
-      font-size: 14px;
-      margin-top: 6px;
-      margin-bottom: 16px;
-    }
-
-    .stream-box,
-    .control-row,
-    .article-structure li,
-    .queue-row,
-    .approval-card,
-    .social-card blockquote,
-    .codebox {
-      background: #f1ede8;
-      border-radius: 8px;
-    }
-
-    .stream-box {
-      padding: 14px 14px 12px;
-      margin-top: 10px;
-      border-left: 3px solid transparent;
-    }
-
-    .stream-box .name {
-      font-weight: 700;
-      margin-bottom: 4px;
-    }
-
-    .stream-box .desc {
-      color: var(--muted);
-      font-size: 13px;
-    }
-
-    .control-row {
+    .runtime-head {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap: 14px;
-      padding: 10px 12px;
-      margin-top: 8px;
-      background: #e8efe9;
+      margin-bottom: 16px;
     }
-
-    .control-row .title {
-      font-weight: 700;
-      font-size: 14px;
-      margin-bottom: 2px;
-    }
-
-    .control-row .desc {
-      color: var(--muted);
-      font-size: 12px;
-    }
-
-    .control-row .state {
-      font-size: 13px;
-      color: var(--green);
-      font-weight: 700;
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-size: 10px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: .6px;
       white-space: nowrap;
     }
+    .badge.neutral { background: #e4dfd9; color: #4e4740; }
+    .badge.blue { background: var(--blue); color: white; }
+    .badge.green { background: var(--green); color: white; }
+    .badge.orange { background: var(--orange-soft); color: white; }
+    .badge.orange-strong { background: var(--orange); color: white; }
+    .badge.red { background: var(--red); color: white; }
+    .badge.approved { background: var(--green); color: white; }
+    .badge.review { background: var(--orange-soft); color: white; }
+    .badge.aeo { background: var(--blue); color: white; }
+    .badge.unverified { background: var(--orange-soft); color: white; }
+    .badge.verified { background: var(--green); color: white; }
+    .badge.researched { background: #e4dfd9; color: #5a544c; }
+    .badge.draft-ready { background: var(--green); color: white; }
+    .badge.on-track { background: var(--green); color: white; }
+    .badge.behind { background: var(--orange); color: white; }
+    .badge.high { background: var(--orange); color: white; }
+    .badge.medium { background: var(--orange-soft); color: white; }
+    .badge.low { background: var(--green); color: white; }
+    .badge.draft { background: #bbb3aa; color: white; }
+    .badge.founder { background: var(--orange); color: white; }
 
-    .pipeline {
-      margin-top: 24px;
-      padding: 20px 22px;
+    .runtime-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+    .runtime-box {
+      border: 1px solid #4b443e;
+      border-radius: 10px;
+      padding: 14px;
+      background: rgba(255,255,255,0.02);
+    }
+    .runtime-box h4 {
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: 800;
+      color: white;
+      margin-bottom: 10px;
+    }
+    .runtime-pill {
+      background: #2f2a26;
+      border-radius: 4px;
+      color: #d9d0c7;
+      padding: 4px 8px;
+      font-size: 10px;
+      margin-bottom: 6px;
     }
 
+    .page-heading {
+      text-align: center;
+      margin-bottom: 22px;
+    }
+    .page-heading h2 { font-size: 30px; margin-bottom: 6px; }
+    .page-heading p { font-size: 12px; color: var(--muted); }
+
+    .setup-step {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 18px;
+      align-items: flex-start;
+    }
+    .step-number {
+      width: 36px;
+      height: 36px;
+      border-radius: 999px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: 800;
+      color: white;
+      flex: 0 0 36px;
+      margin-top: 1px;
+    }
+    .step-number.blue { background: var(--blue); }
+    .step-number.orange { background: var(--orange); }
+    .step-title { font-size: 14px; font-weight: 800; margin-bottom: 8px; }
+    .code-block,
+    .code-pre {
+      background: linear-gradient(90deg, var(--hero) 0%, var(--hero-2) 100%);
+      color: #f0ece7;
+      border-radius: 8px;
+      padding: 12px 14px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 11px;
+      line-height: 1.45;
+      overflow-x: auto;
+      white-space: pre-wrap;
+    }
+    .code-pre.orange-text { color: #ff7a1f; }
+
+    .dashboard-wrap {
+      display: flex;
+      min-height: 100vh;
+      background: var(--bg);
+    }
+    .sidebar {
+      width: 194px;
+      background: var(--sidebar);
+      border-right: 1px solid var(--sidebar-line);
+      color: white;
+      display: flex;
+      flex-direction: column;
+      flex: 0 0 194px;
+    }
+    .sidebar-brand {
+      padding: 20px 16px 18px;
+      border-bottom: 1px solid var(--sidebar-line);
+    }
+    .sidebar-brand .brand-title { display: block; }
+    .sidebar-sub1 {
+      font-size: 10px;
+      color: #bcb2a7;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-top: 4px;
+    }
+    .sidebar-sub2 {
+      font-size: 12px;
+      color: #bcb2a7;
+      margin-top: 6px;
+    }
+    .sidebar-tabs {
+      padding: 8px 0;
+      flex: 1;
+    }
+    .sidebar-tab {
+      display: block;
+      width: 100%;
+      text-align: left;
+      padding: 10px 16px;
+      color: var(--sidebar-text);
+      border-left: 3px solid transparent;
+      font-size: 12px;
+      font-weight: 500;
+    }
+    .sidebar-tab.active {
+      color: white;
+      background: #3d3732;
+      border-left-color: var(--orange);
+      font-weight: 700;
+    }
+    .sidebar-bottom {
+      border-top: 1px solid var(--sidebar-line);
+      padding: 14px 16px 12px;
+    }
+    .sidebar-constraints-title {
+      font-size: 12px;
+      color: #bcb2a7;
+      margin-bottom: 8px;
+    }
+    .sidebar-constraint {
+      font-size: 11px;
+      color: #9f958a;
+      margin-bottom: 4px;
+    }
+    .back-btn {
+      margin-top: 16px;
+      width: 100%;
+      padding: 10px 0;
+      border-radius: 8px;
+      background: #dd862e;
+      color: white;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .dashboard-main {
+      flex: 1;
+      overflow: auto;
+      padding: 22px 24px 28px;
+    }
+    .dashboard-page { display: none; }
+    .dashboard-page.active { display: block; }
+    .dashboard-heading h2 { font-size: 30px; margin-bottom: 8px; }
+    .dashboard-meta { font-size: 12px; color: var(--muted); margin-bottom: 22px; }
+    .mini-title { font-size: 12px; color: var(--muted); margin-bottom: 12px; }
+    .card-heading {
+      font-family: 'DM Serif Display', Georgia, serif;
+      font-size: 18px;
+      margin-bottom: 6px;
+    }
+    .card-subheading {
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 14px;
+    }
+    .stream-row,
+    .guardrail-row,
+    .queue-row,
+    .article-row,
+    .runtime-lite-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .stream-card {
+      background: #f4efea;
+      border-radius: 8px;
+      padding: 14px 14px 14px 12px;
+      margin-bottom: 10px;
+      border-left: 3px solid transparent;
+    }
+    .stream-card.blue { border-left-color: var(--blue); }
+    .stream-card.green { border-left-color: var(--green); }
+    .stream-card.brown { border-left-color: var(--brown); }
+    .stream-title { font-size: 14px; font-weight: 800; margin-bottom: 4px; }
+    .stream-sub { font-size: 12px; color: var(--muted); }
+    .guardrail-row {
+      background: var(--green-soft);
+      padding: 10px 12px;
+      border-radius: 8px;
+      margin-bottom: 10px;
+    }
+    .guardrail-name { font-size: 14px; font-weight: 800; }
+    .guardrail-sub { font-size: 12px; color: var(--muted); margin-top: 4px; }
+    .guardrail-status { font-size: 12px; font-weight: 800; color: var(--green); }
+
+    .pipeline-title { font-size: 18px; font-weight: 800; margin-bottom: 12px; }
+    .pipeline-sub { font-size: 14px; margin-bottom: 18px; }
     .pipeline-steps {
       display: flex;
       align-items: center;
       gap: 10px;
       flex-wrap: wrap;
-      margin-top: 16px;
     }
-
     .step-pill {
-      min-width: 170px;
-      text-align: center;
-      padding: 11px 14px;
+      padding: 10px 18px;
       border-radius: 6px;
-      font-size: 13px;
-      font-weight: 700;
-      color: white;
-    }
-
-    .step-arrow {
-      color: #8e867f;
-      font-size: 18px;
-    }
-
-    .timeline {
-      margin-top: 26px;
-      display: grid;
-      gap: 14px;
-    }
-
-    .timeline-row {
-      display: grid;
-      grid-template-columns: 100px 4px 1fr;
-      gap: 18px;
-      align-items: stretch;
-    }
-
-    .timeline-day {
-      color: #857c74;
-      font-weight: 700;
-      font-size: 13px;
-      text-transform: uppercase;
-      text-align: right;
-      padding-top: 13px;
-    }
-
-    .timeline-bar {
-      border-radius: 999px;
-    }
-
-    .timeline-card {
-      padding: 18px 20px;
-    }
-
-    .timeline-top,
-    .social-head,
-    .queue-row {
-      display: flex;
-      justify-content: space-between;
-      gap: 12px;
-      align-items: flex-start;
-    }
-
-    .timeline-name {
-      font-weight: 700;
-      font-size: 16px;
-      margin-bottom: 8px;
-    }
-
-    .timeline-desc {
-      font-size: 14px;
-      color: #6f665f;
-      line-height: 1.55;
-    }
-
-    .badge-row {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 5px;
-      padding: 4px 10px;
-      font-size: 11px;
-      line-height: 1;
+      font-size: 12px;
       font-weight: 800;
-      letter-spacing: 0.6px;
-      text-transform: uppercase;
       white-space: nowrap;
     }
+    .step-pill.green { background: var(--green); color: white; }
+    .step-pill.orange { background: var(--orange-soft); color: white; }
+    .step-pill.soft { background: #ddd8d1; color: #524b45; }
+    .chev { color: #7d756d; font-weight: 800; }
 
-    .badge.gray { background: #d9d2ca; color: #544c46; }
-    .badge.green { background: var(--green); color: #fff; }
-    .badge.blue { background: var(--blue); color: #fff; }
-    .badge.orange { background: var(--orange); color: #fff; }
-    .badge.orange-strong { background: var(--orange-strong); color: #fff; }
-    .badge.red { background: var(--red); color: #fff; }
-    .badge.soft { background: #cbc3ba; color: #5a524b; }
-
-    .table-card { margin-top: 26px; }
-    .table-card .section { padding-bottom: 14px; }
+    .workflow-row {
+      display: grid;
+      grid-template-columns: 82px 3px 1fr;
+      gap: 18px;
+      margin-bottom: 14px;
+    }
+    .workflow-day {
+      text-align: right;
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--muted);
+      text-transform: uppercase;
+      padding-top: 12px;
+    }
+    .workflow-line { border-radius: 4px; }
+    .workflow-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    .workflow-title { font-size: 14px; font-weight: 800; }
+    .workflow-copy { font-size: 12px; color: #5d5650; line-height: 1.55; }
+    .tag-row { display: flex; gap: 8px; flex-wrap: wrap; }
 
     table {
       width: 100%;
       border-collapse: collapse;
-      font-size: 14px;
+      font-size: 12px;
     }
-
+    thead tr { border-bottom: 2px solid #ded6cc; }
     th {
       text-align: left;
-      padding: 12px 10px;
-      color: #847b73;
-      font-size: 12px;
+      padding: 8px 8px;
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
-      border-bottom: 1px solid #cfc7be;
+      letter-spacing: .6px;
     }
-
     td {
-      padding: 12px 10px;
-      border-bottom: 1px solid #e1dad2;
+      padding: 10px 8px;
+      border-bottom: 1px solid #ede6de;
       vertical-align: top;
     }
+    td strong { font-weight: 800; }
 
-    td strong { font-weight: 700; }
-
-    .meta-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 24px;
-      margin-top: 18px;
+    .article-meta { font-size: 12px; color: #5d5650; line-height: 1.7; }
+    .article-title {
+      font-size: 20px;
+      font-weight: 800;
+      margin-bottom: 12px;
+      color: var(--text);
     }
-
-    .meta-list {
-      display: grid;
-      gap: 10px;
-      font-size: 14px;
-      color: #5e5650;
-    }
-
-    .meta-list div span:first-child {
-      display: inline-block;
-      width: 102px;
-      color: #80776f;
-    }
-
-    .article-structure {
-      margin: 0;
-      padding: 0;
-      list-style: none;
-      display: grid;
-      gap: 4px;
-    }
-
-    .article-structure li {
-      padding: 10px 12px;
-      border-left: 3px solid var(--blue);
-      color: #5f5751;
-      font-size: 14px;
-    }
-
-    .social-card {
-      margin-top: 18px;
-      padding: 18px 20px 20px;
-    }
-
-    .tone {
-      color: var(--muted);
-      font-size: 13px;
-      white-space: nowrap;
-    }
-
-    .social-card blockquote {
-      margin: 10px 0 0;
-      padding: 14px 16px;
+    .draft-box {
+      background: #f5f0eb;
       border-left: 3px solid var(--green);
+      border-radius: 8px;
+      padding: 14px;
+      margin-bottom: 12px;
     }
+    .quote { font-size: 14px; line-height: 1.5; }
+    .quote-sub { margin-top: 8px; font-size: 12px; color: var(--muted); font-style: italic; }
 
-    .social-card .quote {
-      font-size: 16px;
-      line-height: 1.5;
-      margin-bottom: 8px;
-    }
-
-    .social-card .quote-sub {
-      color: #7d756d;
-      font-style: italic;
-      font-size: 14px;
-    }
-
-    .actions {
+    .action-row {
       display: flex;
       justify-content: flex-end;
       gap: 10px;
+      flex-wrap: wrap;
       margin-top: 10px;
     }
-
-    .btn {
-      border: 0;
+    .action-btn {
+      padding: 8px 16px;
       border-radius: 6px;
-      padding: 9px 16px;
-      font: inherit;
-      font-size: 13px;
-      font-weight: 700;
-      cursor: pointer;
-      color: #fff;
+      color: white;
+      font-size: 12px;
+      font-weight: 800;
+    }
+    .action-btn.approve { background: var(--green); }
+    .action-btn.edit { background: #b9b2a9; }
+    .action-btn.reject { background: var(--red); }
+    .action-btn.icon {
+      width: 38px;
+      text-align: center;
+      padding: 8px 0;
     }
 
-    .btn.green { background: var(--green); }
-    .btn.gray { background: #b8afa6; color: #fff; }
-    .btn.red { background: var(--red); }
-
-    .codebox {
-      padding: 16px 18px;
-      font-family: 'JetBrains Mono', ui-monospace, monospace;
-      font-size: 13px;
-      line-height: 1.65;
-      white-space: pre-wrap;
-      color: #473f39;
-    }
-
-    .review-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-      margin-top: 20px;
-    }
-
-    .checklist {
-      display: grid;
-      gap: 10px;
-      font-size: 14px;
-      color: #5d554e;
-    }
-
-    .checklist label {
+    .review-check label {
       display: flex;
-      gap: 10px;
+      gap: 8px;
       align-items: flex-start;
+      margin-bottom: 8px;
+      font-size: 12px;
+      color: #5d5650;
     }
-
-    .checklist input {
-      margin-top: 2px;
-      accent-color: var(--green);
-    }
-
+    .review-check input { accent-color: var(--green); margin-top: 1px; }
     .approval-card {
-      padding: 14px 14px 12px;
-      margin-top: 10px;
+      background: #f5f0eb;
+      border-radius: 8px;
+      padding: 12px 14px;
+      margin-bottom: 10px;
       border-left: 3px solid transparent;
     }
-
-    .approval-card .title {
-      font-weight: 700;
-      margin-bottom: 4px;
-      font-size: 14px;
-    }
-
-    .approval-card .desc {
-      color: var(--muted);
-      font-size: 13px;
-      line-height: 1.45;
-    }
-
-    .queue {
-      margin-top: 20px;
-    }
+    .approval-card.green { border-left-color: var(--green); }
+    .approval-card.orange { border-left-color: var(--orange); }
+    .approval-title { font-size: 14px; font-weight: 800; }
+    .approval-copy { font-size: 12px; color: var(--muted); margin-top: 4px; line-height: 1.5; }
 
     .queue-row {
-      padding: 10px 12px;
-      margin-top: 8px;
-      align-items: center;
-      background: #f2eeea;
+      background: #f5f0eb;
       border-radius: 8px;
+      padding: 10px 12px;
+      margin-bottom: 8px;
       border-left: 3px solid transparent;
     }
-
+    .queue-row.flagged { border-left-color: var(--red); }
     .queue-left {
       display: flex;
       align-items: center;
       gap: 10px;
-      min-width: 0;
       flex-wrap: wrap;
     }
+    .queue-title { font-size: 12px; color: var(--text); }
 
-    .queue-title {
-      font-size: 14px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      max-width: 100%;
-    }
+    .kpi-note { font-style: italic; color: var(--muted); }
 
-    .queue-actions {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
+    .page-nav-only { display: none; }
 
-    .icon-btn {
-      width: 36px;
-      height: 30px;
-      border: 0;
-      border-radius: 5px;
-      cursor: pointer;
-      font: inherit;
-      font-weight: 800;
-      color: #fff;
-    }
-
-    .icon-btn.ok { background: var(--green); }
-    .icon-btn.no { background: var(--red); }
-
-    .italic-note {
-      color: #857b73;
-      font-style: italic;
-    }
-
-    .footer-back {
-      display: block;
-      width: 100%;
-      margin-top: 16px;
-      border: 0;
-      border-radius: 6px;
-      background: #d87b2d;
-      color: white;
-      padding: 10px 12px;
-      font: inherit;
-      font-size: 13px;
-      font-weight: 700;
-      cursor: pointer;
-    }
-
-    @media (max-width: 1180px) {
-      .stats,
-      .grid-2,
-      .review-grid,
-      .meta-grid { grid-template-columns: 1fr; }
-    }
-
-    @media (max-width: 900px) {
-      .app { grid-template-columns: 1fr; }
-      .sidebar {
-        min-height: auto;
-        position: static;
+    @media (max-width: 1100px) {
+      .runtime-grid,
+      .dashboard-top-grid,
+      .solution-grid,
+      .nav-card-grid,
+      .arch-streams,
+      .stats-grid,
+      .dashboard-mid-grid,
+      .review-top-grid,
+      .setup-grid,
+      .search-bottom-grid {
+        grid-template-columns: 1fr 1fr;
       }
-      .timeline-row { grid-template-columns: 72px 4px 1fr; }
+    }
+
+    @media (max-width: 800px) {
+      .topbar { padding: 12px 14px; }
+      .topnav { flex-wrap: wrap; justify-content: flex-end; }
+      .hero h1 { font-size: 46px; }
+      .hero-copy { font-size: 16px; }
+      .dashboard-wrap { flex-direction: column; }
+      .sidebar { width: 100%; flex: none; }
+      .sidebar-tabs { display: flex; overflow-x: auto; padding: 8px; gap: 6px; }
+      .sidebar-tab {
+        width: auto;
+        min-width: max-content;
+        border-left: 0;
+        border-bottom: 3px solid transparent;
+        border-radius: 6px;
+        background: #2d2824;
+      }
+      .sidebar-tab.active { border-left: 0; border-bottom-color: var(--orange); }
+      .sidebar-bottom { padding-top: 10px; }
+      .workflow-row { grid-template-columns: 70px 3px 1fr; gap: 12px; }
+    }
+
+    @media (max-width: 640px) {
+      .stats-grid,
+      .solution-grid,
+      .nav-card-grid,
+      .arch-streams,
+      .runtime-grid,
+      .dashboard-top-grid,
+      .dashboard-mid-grid,
+      .review-top-grid,
+      .setup-grid,
+      .search-bottom-grid {
+        grid-template-columns: 1fr;
+      }
+      .hero { min-height: 360px; }
+      .hero h1 { font-size: 40px; }
+      .section-shell { padding: 34px 16px 52px; }
+      .page-heading h2,
+      .section-title,
+      .dashboard-heading h2 { font-size: 24px; }
+      .pipeline-steps { align-items: stretch; }
+      .topnav { gap: 4px; }
+      .nav-btn { padding: 8px 12px; }
     }
   </style>
 </head>
 <body>
-  <div class="app">
-    <aside class="sidebar">
-      <div class="brand">
-        <h1>Splatter</h1>
-        <div class="tag">Brand Visibility Agent</div>
-        <div class="byline">by Riverflex</div>
-      </div>
-      <nav class="nav" id="nav"></nav>
-      <div class="sidebar-footer">
-        <div class="label">MVP Constraints</div>
-        <div>No autonomous posting</div>
-        <div>No hallucinated contacts</div>
-        <div>Local deployment</div>
-        <div>Proof-first outputs only</div>
-        <button class="footer-back" type="button">← Back to Site</button>
-      </div>
-    </aside>
-    <main class="main">
-      <div class="view" id="view"></div>
-    </main>
-  </div>
+  <nav id="topbar" class="topbar">
+    <button class="brand-btn" data-page="home" aria-label="Go to home">
+      <span class="brand-title">Splatter</span>
+      <span class="brand-sub">by Riverflex</span>
+    </button>
+    <div class="topnav">
+      <button class="nav-btn active" data-page="home">Home</button>
+      <button class="nav-btn" data-page="architecture">Architecture</button>
+      <button class="nav-btn" data-page="setup">Setup</button>
+      <button class="nav-btn" data-page="dashboard">Dashboard</button>
+    </div>
+  </nav>
 
-  <script>
-    const sections = [
-      { id: 'dashboard', label: 'Dashboard' },
-      { id: 'weekly', label: 'Weekly Cycle' },
-      { id: 'search', label: 'Search Visibility' },
-      { id: 'social', label: 'Social Proof' },
-      { id: 'authority', label: 'Authority Building' },
-      { id: 'review', label: 'Review Gate' },
-      { id: 'kpi', label: 'KPI Monitor' }
-    ];
-
-    let current = 'dashboard';
-
-    const nav = document.getElementById('nav');
-    const view = document.getElementById('view');
-
-    function badge(text, cls = 'gray') {
-      return `<span class="badge ${cls}">${text}</span>`;
-    }
-
-    function cardStart(title, sub) {
-      return `<section class="card section"><h3>${title}</h3><div class="section-sub">${sub}</div>`;
-    }
-
-    function cardEnd() { return `</section>`; }
-
-    const dashboardHTML = `
-      <h2 class="page-title">Week 1 — Cycle Overview</h2>
-      <div class="subtitle">Product Owner: Maria Heller · Cycle: Mon 7 Apr – Fri 11 Apr 2025</div>
-
-      <section class="stats">
-        <div class="card stat-card">
-          <div class="stat-value">9</div>
-          <div class="stat-label">Outputs This Week</div>
-          <div class="stat-note">across 3 streams</div>
+  <main>
+    <section id="page-home" class="page">
+      <div class="hero">
+        <div class="hero-inner">
+          <div class="eyebrow">Riverflex Brand Visibility Agent</div>
+          <h1>Splatter</h1>
+          <p class="hero-copy">A locally deployed AI agent that makes Riverflex consistently easier to discover, easier to trust, and easier to remember.</p>
+          <div class="hero-actions">
+            <button class="cta primary" data-page="dashboard">Explore the Prototype</button>
+            <button class="cta secondary" data-page="architecture">View Architecture</button>
+          </div>
         </div>
-        <div class="card stat-card">
-          <div class="stat-value">6</div>
-          <div class="stat-label">Awaiting Review</div>
-          <div class="stat-note">by Product Owner</div>
-        </div>
-        <div class="card stat-card">
-          <div class="stat-value">2</div>
-          <div class="stat-label">Approved</div>
-          <div class="stat-note">ready to deploy</div>
-        </div>
-        <div class="card stat-card">
-          <div class="stat-value">1</div>
-          <div class="stat-label">Founder Escalations</div>
-          <div class="stat-note">strategic approval</div>
-        </div>
-      </section>
-
-      <div class="grid-2">
-        ${cardStart('Output Streams', 'What Splatter produced this cycle')}
-          <div class="stream-box" style="border-left-color:#214f77;">
-            <div class="name">Search Visibility</div>
-            <div class="desc">5 keywords researched · 1 blog draft</div>
-          </div>
-          <div class="stream-box" style="border-left-color:#2f8a52;">
-            <div class="name">Social Proof</div>
-            <div class="desc">3 LinkedIn post drafts</div>
-          </div>
-          <div class="stream-box" style="border-left-color:#8b5b3a;">
-            <div class="name">Authority Building</div>
-            <div class="desc">4 backlink targets · 1 outreach email draft</div>
-          </div>
-        ${cardEnd()}
-
-        ${cardStart('Operational Controls', 'Guardrails enforced this cycle')}
-          <div class="control-row">
-            <div>
-              <div class="title">No autonomous posting</div>
-              <div class="desc">All outputs are drafts only</div>
-            </div>
-            <div class="state">✓ Enforced</div>
-          </div>
-          <div class="control-row">
-            <div>
-              <div class="title">No hallucinated contacts</div>
-              <div class="desc">3/4 targets verified via real sources</div>
-            </div>
-            <div class="state">✓ Enforced</div>
-          </div>
-          <div class="control-row">
-            <div>
-              <div class="title">Local deployment</div>
-              <div class="desc">Running on local infrastructure</div>
-            </div>
-            <div class="state">✓ Active</div>
-          </div>
-          <div class="control-row">
-            <div>
-              <div class="title">Proof-first outputs</div>
-              <div class="desc">All claims traced to approved case proof</div>
-            </div>
-            <div class="state">✓ Enforced</div>
-          </div>
-        ${cardEnd()}
       </div>
 
-      <section class="card pipeline">
-        <h3>This Week's Pipeline</h3>
-        <div class="section-sub">Monday → Friday</div>
-        <div class="pipeline-steps">
-          <div class="step-pill" style="background:#2f8a52;">Curated Inputs</div>
-          <div class="step-arrow">›</div>
-          <div class="step-pill" style="background:#2f8a52;">Visibility Plan</div>
-          <div class="step-arrow">›</div>
-          <div class="step-pill" style="background:#2f8a52;">AI Drafts Generated</div>
-          <div class="step-arrow">›</div>
-          <div class="step-pill" style="background:#dd930b;">PO Review</div>
-          <div class="step-arrow">›</div>
-          <div class="step-pill" style="background:#cfc8c0; color:#4f4741;">Founder Gate (if needed)</div>
-          <div class="step-arrow">›</div>
-          <div class="step-pill" style="background:#d6d0c8; color:#4f4741;">Deploy (manual)</div>
+      <div class="section-shell">
+        <div class="section-title-block">
+          <div class="section-kicker">The Problem</div>
+          <h2 class="section-title">Why Splatter Exists</h2>
         </div>
-      </section>
-    `;
 
-    const weeklySteps = [
-      ['MONDAY', '#214f77', 'Input Curation', 'Gather approved case proof, delivery insights, positioning guardrails, and priority themes for the week. Update the input file that Splatter reads.', [badge('Product Owner (Maria)', 'gray')]],
-      ['MONDAY', '#214f77', 'Visibility Plan', 'Based on curated inputs, Splatter proposes topics, formats, target keywords, and backlink targets for the week. PO reviews plan before generation begins.', [badge('Splatter (AI)', 'gray'), badge('Approval Gate', 'orange')]],
-      ['TUE–WED', '#2f8a52', 'Draft Generation', 'Splatter produces all drafts: keyword research, 1–2 blog articles, 3 LinkedIn posts, backlink target list, and outreach email drafts. All outputs saved locally.', [badge('Splatter (AI)', 'gray')]],
-      ['THURSDAY', '#dd930b', 'Product Owner Review', 'Maria reviews all outputs using the Review Checklist. She can approve, request edits, or reject. Outputs that need founder input are flagged.', [badge('Product Owner (Maria)', 'gray'), badge('Approval Gate', 'orange')]],
-      ['THU–FRI', '#f06522', 'Founder Gate (if needed)', 'Only triggered for strategic content, sensitive claims, or high-visibility outputs. Founders approve or redirect. This gate protects credibility without creating bottlenecks.', [badge('Founders (Jesse + Team)', 'gray'), badge('Approval Gate', 'orange')]],
-      ['FRIDAY', '#8b5b3a', 'Manual Deployment', 'Approved blog posts are published to CMS. LinkedIn posts are posted by founders or PO. Outreach emails are sent manually. Nothing is automated.', [badge('Product Owner (Maria)', 'gray')]],
-      ['FRIDAY', '#8f8a84', 'KPI Logging', 'Record outputs produced, approval rates, and any qualitative notes. Update the weekly dashboard. Flag improvements for next cycle.', [badge('Product Owner (Maria)', 'gray')]]
-    ];
-
-    const weeklyHTML = `
-      <h2 class="page-title">Weekly Cycle Workflow</h2>
-      <div class="subtitle">Splatter runs in weekly cycles. Each step is shown below with role ownership and approval gates.</div>
-      <section class="timeline">
-        ${weeklySteps.map(step => `
-          <div class="timeline-row">
-            <div class="timeline-day">${step[0]}</div>
-            <div class="timeline-bar" style="background:${step[1]}"></div>
-            <div class="card timeline-card">
-              <div class="timeline-top">
-                <div class="timeline-name">${step[2]}</div>
-                <div class="badge-row">${step[4].join('')}</div>
-              </div>
-              <div class="timeline-desc">${step[3]}</div>
-            </div>
+        <div class="stats-grid">
+          <div class="card">
+            <div class="stat-value">80%+</div>
+            <div class="stat-title">of revenue from founder networks</div>
+            <div class="stat-sub">Growth is network-dependent</div>
           </div>
-        `).join('')}
-      </section>
-    `;
-
-    const searchRows = [
-      ['data analytics consultancy UK', '1.2K', badge('MEDIUM', 'orange'), 'Commercial', badge('AEO ✓', 'blue'), badge('HIGH', 'orange-strong')],
-      ['freelance data engineering teams', '880', badge('LOW', 'green'), 'Informational', badge('AEO ✓', 'blue'), badge('HIGH', 'orange-strong')],
-      ['open talent model consulting', '320', badge('LOW', 'green'), 'Informational', '–', badge('MEDIUM', 'orange')],
-      ['hire analytics consultants Europe', '2.1K', badge('HIGH', 'orange-strong'), 'Transactional', badge('AEO ✓', 'blue'), badge('MEDIUM', 'orange')],
-      ['boutique consultancy vs big four', '590', badge('MEDIUM', 'orange'), 'Informational', badge('AEO ✓', 'blue'), badge('HIGH', 'orange-strong')]
-    ];
-
-    const searchHTML = `
-      <h2 class="page-title">Stream 1: Search Visibility</h2>
-      <div class="subtitle">SEO / GEO / AEO keyword research and blog drafting — designed to rank in traditional and AI-assisted search.</div>
-
-      <section class="card table-card">
-        <div class="section">
-          <h3>Keyword Opportunities This Week</h3>
-          <div class="section-sub">Researched keywords with volume, difficulty, and AI-search relevance</div>
-          <table>
-            <thead>
-              <tr>
-                <th>Keyword</th>
-                <th>Volume</th>
-                <th>Difficulty</th>
-                <th>Intent</th>
-                <th>AEO Ready</th>
-                <th>Priority</th>
-              </tr>
-            </thead>
-            <tbody>
-              ${searchRows.map(row => `
-                <tr>
-                  <td><strong>${row[0]}</strong></td>
-                  <td>${row[1]}</td>
-                  <td>${row[2]}</td>
-                  <td>${row[3]}</td>
-                  <td>${row[4]}</td>
-                  <td>${row[5]}</td>
-                </tr>
-              `).join('')}
-            </tbody>
-          </table>
+          <div class="card">
+            <div class="stat-value">0</div>
+            <div class="stat-title">dedicated growth function</div>
+            <div class="stat-sub">No structured visibility system</div>
+          </div>
+          <div class="card">
+            <div class="stat-value">6+ hrs</div>
+            <div class="stat-title">founder time on visibility/week</div>
+            <div class="stat-sub">Leadership carries brand alone</div>
+          </div>
         </div>
-      </section>
 
-      <section class="card table-card">
-        <div class="section">
-          <h3>Blog Draft: Week 1</h3>
-          <div class="section-sub">Draft article generated from keyword research and approved proof</div>
-          <div style="font-family:'DM Serif Display', Georgia, serif; font-size:18px; margin-bottom:14px;">Why Boutique Consultancies Are Winning the Data Analytics Race</div>
-          <div class="meta-grid">
-            <div>
-              <div class="meta-list">
-                <div><span>Word count:</span> 1480</div>
-                <div><span>SEO score:</span> 87/100</div>
-                <div><span>Tone:</span> Senior, calm, evidence-led</div>
-                <div><span>AEO optimised:</span> Yes — answer-first format, structured headings, evidence-backed</div>
-              </div>
-              <div class="badge-row" style="margin-top:18px;">
-                ${badge('Draft', 'gray')}
-                ${badge('AEO Optimised', 'blue')}
-              </div>
+        <div class="section-title-block">
+          <div class="section-kicker">The Solution</div>
+          <h2 class="section-title">Three Output Streams, One Weekly Cycle</h2>
+        </div>
+
+        <div class="solution-grid">
+          <div class="card border-top-blue">
+            <div class="feature-title">Search Visibility</div>
+            <div class="feature-copy">SEO/GEO/AEO keyword research and blog drafting</div>
+          </div>
+          <div class="card border-top-green">
+            <div class="feature-title">Social Proof</div>
+            <div class="feature-copy">LinkedIn posts based on approved case proof</div>
+          </div>
+          <div class="card border-top-brown">
+            <div class="feature-title">Authority Building</div>
+            <div class="feature-copy">Backlink targets, guest posts, outreach emails</div>
+          </div>
+        </div>
+
+        <div class="nav-card-grid">
+          <button class="card card-link" data-page="architecture">
+            <div class="nav-card-title blue">Architecture</div>
+            <div class="nav-card-copy">How OpenClaw powers Splatter</div>
+          </button>
+          <button class="card card-link" data-page="setup">
+            <div class="nav-card-title orange">Setup Guide</div>
+            <div class="nav-card-copy">Step-by-step from zero</div>
+          </button>
+          <button class="card card-link" data-page="dashboard">
+            <div class="nav-card-title green">Live Dashboard</div>
+            <div class="nav-card-copy">Click through a weekly cycle</div>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section id="page-architecture" class="page hidden">
+      <div class="section-shell">
+        <div class="page-heading">
+          <h2>Architecture</h2>
+          <p>How OpenClaw powers Splatter locally</p>
+        </div>
+
+        <div class="card dark pad-lg" style="margin-bottom:16px;">
+          <div class="runtime-head">
+            <h3 class="arch-runtime-title">OpenClaw Agent Runtime</h3>
+            <span class="badge green">Local</span>
+          </div>
+          <div class="runtime-grid">
+            <div class="runtime-box">
+              <h4>Gateway</h4>
+              <div class="runtime-pill">Session mgmt</div>
+              <div class="runtime-pill">Tool orchestration</div>
+              <div class="runtime-pill">Prompt injection</div>
             </div>
-            <div>
-              <div style="font-size:12px; text-transform:uppercase; letter-spacing:0.5px; color:#857c74; margin-bottom:10px;">Article Structure</div>
-              <ul class="article-structure">
-                <li>Hook: Industry shift stat</li>
-                <li>H2: The limitations of traditional consulting</li>
-                <li>H2: How open-talent models create flexibility</li>
-                <li>H2: Riverflex's approach — matching problems with specialists</li>
-                <li>H2: Case proof — IKEA data platform migration</li>
-                <li>CTA: Soft — 'See how we work'</li>
-              </ul>
+            <div class="runtime-box">
+              <h4>Local LLM</h4>
+              <div class="runtime-pill">Llama 3 / Mistral</div>
+              <div class="runtime-pill">Company hardware</div>
+              <div class="runtime-pill">No data leaves</div>
+            </div>
+            <div class="runtime-box">
+              <h4>Agent Config</h4>
+              <div class="runtime-pill">System prompt</div>
+              <div class="runtime-pill">Tool policy</div>
+              <div class="runtime-pill">Skills loaded</div>
+            </div>
+            <div class="runtime-box">
+              <h4>Tools</h4>
+              <div class="runtime-pill">web_search</div>
+              <div class="runtime-pill">web_fetch</div>
+              <div class="runtime-pill">exec</div>
+              <div class="runtime-pill">read/write</div>
             </div>
           </div>
         </div>
-      </section>
-    `;
 
-    const socialCards = [
-      [badge('Draft', 'gray') + badge('Case Proof', 'soft'), 'Tone: Calm authority', '“We helped a global retailer reduce their data pipeline build time by 40%.”', 'See how we match problems with experts →'],
-      [badge('Draft', 'gray') + badge('Delivery Insight', 'soft'), 'Tone: Thought leadership', '“Most consulting projects fail because the team is assembled for availability, not fit.”', 'That\'s why Riverflex works differently.'],
-      [badge('Review', 'orange') + badge('Positioning', 'soft'), 'Tone: Direct, differentiated', '“We\'re not trying to be a smaller version of Deloitte.”', 'We\'re building something the industry doesn\'t have yet.']
-    ];
-
-    const socialHTML = `
-      <h2 class="page-title">Stream 2: Social Proof</h2>
-      <div class="subtitle">LinkedIn drafts based on Riverflex proof — case outcomes, delivery insights, and positioning. Written in a calm, senior tone.</div>
-      ${socialCards.map(card => `
-        <section class="card social-card">
-          <div class="social-head">
-            <div class="badge-row">${card[0]}</div>
-            <div class="tone">${card[1]}</div>
+        <div class="arch-streams">
+          <div class="card border-top-blue">
+            <div class="feature-title">Search Visibility</div>
+            <div class="runtime-pill" style="background:#f4efea;color:#514a43;">Keywords</div>
+            <div class="runtime-pill" style="background:#f4efea;color:#514a43;">Blog drafts</div>
+            <div class="runtime-pill" style="background:#f4efea;color:#514a43;">AEO format</div>
           </div>
-          <blockquote>
-            <div class="quote">${card[2]}</div>
-            <div class="quote-sub">${card[3]}</div>
-          </blockquote>
-          <div class="actions">
-            <button class="btn green" type="button">Approve</button>
-            <button class="btn gray" type="button">Request Edit</button>
-            <button class="btn red" type="button">Reject</button>
+          <div class="card border-top-green">
+            <div class="feature-title">Social Proof</div>
+            <div class="runtime-pill" style="background:#f4efea;color:#514a43;">Case posts</div>
+            <div class="runtime-pill" style="background:#f4efea;color:#514a43;">Insights</div>
+            <div class="runtime-pill" style="background:#f4efea;color:#514a43;">Positioning</div>
           </div>
-        </section>
-      `).join('')}
-    `;
-
-    const authorityRows = [
-      ['DataDrivenInvestor.com', badge('Guest Post', 'soft'), '62', 'How open-talent models change consulting delivery', 'editor@datadrivenin.com', badge('Verified', 'green'), badge('Researched', 'soft')],
-      ['Consultancy.uk', badge('PR / Feature', 'soft'), '58', 'Riverflex\'s approach to matching freelance experts with enterprise clients', 'news@consultancy.uk', badge('Verified', 'green'), badge('Researched', 'soft')],
-      ['The Data Scientist Podcast', badge('Podcast', 'soft'), '41', 'Building a data consultancy without traditional hierarchy', 'Via LinkedIn DM', badge('Unverified', 'orange'), badge('Researched', 'soft')],
-      ['Medium — Towards Data Science', badge('Syndication', 'soft'), '95', 'Republish blog with canonical link', 'Self-publish', badge('Verified', 'green'), badge('Draft Ready', 'green')]
-    ];
-
-    const authorityHTML = `
-      <h2 class="page-title">Stream 3: Authority Building</h2>
-      <div class="subtitle">Backlink targets, guest post opportunities, and outreach email drafts — all verified, none hallucinated.</div>
-
-      <section class="card table-card">
-        <div class="section">
-          <h3>Backlink &amp; PR Targets</h3>
-          <div class="section-sub">Real targets researched this week — all traceable to verified sources</div>
-          <table>
-            <thead>
-              <tr>
-                <th>Target</th>
-                <th>Type</th>
-                <th>DA</th>
-                <th>Angle</th>
-                <th>Contact</th>
-                <th>Verified</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              ${authorityRows.map(row => `
-                <tr>
-                  <td><strong>${row[0]}</strong></td>
-                  <td>${row[1]}</td>
-                  <td>${row[2]}</td>
-                  <td>${row[3]}</td>
-                  <td>${row[4]}</td>
-                  <td>${row[5]}</td>
-                  <td>${row[6]}</td>
-                </tr>
-              `).join('')}
-            </tbody>
-          </table>
+          <div class="card border-top-brown">
+            <div class="feature-title">Authority</div>
+            <div class="runtime-pill" style="background:#f4efea;color:#514a43;">Backlinks</div>
+            <div class="runtime-pill" style="background:#f4efea;color:#514a43;">Guest posts</div>
+            <div class="runtime-pill" style="background:#f4efea;color:#514a43;">Outreach</div>
+          </div>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <section class="card table-card">
-        <div class="section">
-          <h3>Outreach Email Draft</h3>
-          <div class="section-sub">Ready for human review and manual sending</div>
-          <div class="codebox">To: editor@datadrivenin.com
+    <section id="page-setup" class="page hidden">
+      <div class="section-shell">
+        <div class="page-heading">
+          <h2>Setup Guide</h2>
+        </div>
+
+        <div class="setup-grid">
+          <div>
+            <div class="setup-step">
+              <div class="step-number blue">1</div>
+              <div style="flex:1;">
+                <div class="step-title">Install OpenClaw</div>
+                <div class="code-block">curl -fsSL https://openclaw.ai/install.sh | bash</div>
+              </div>
+            </div>
+            <div class="setup-step">
+              <div class="step-number blue">2</div>
+              <div style="flex:1;">
+                <div class="step-title">Run Onboarding</div>
+                <div class="code-block">openclaw onboard --install-daemon</div>
+              </div>
+            </div>
+            <div class="setup-step">
+              <div class="step-number blue">3</div>
+              <div style="flex:1;">
+                <div class="step-title">Pull Local LLM</div>
+                <div class="code-block">ollama pull llama3.1:8b</div>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div class="setup-step">
+              <div class="step-number orange">4</div>
+              <div style="flex:1;">
+                <div class="step-title">Configure Agent</div>
+                <pre class="code-pre orange-text">openclaw.json:
+"id": "splatter"
+"model": "ollama/llama3.1:8b"
+"tools": ["web_search",
+  "web_fetch", "group:fs"]</pre>
+              </div>
+            </div>
+            <div class="setup-step">
+              <div class="step-number orange">5</div>
+              <div style="flex:1;">
+                <div class="step-title">System Prompt</div>
+                <pre class="code-pre">AGENTS.md:
+You are Splatter, a brand
+visibility agent for Riverflex.
+Rules: No invented claims.
+Proof-first. Senior tone.</pre>
+              </div>
+            </div>
+            <div class="setup-step">
+              <div class="step-number orange">6</div>
+              <div style="flex:1;">
+                <div class="step-title">Launch</div>
+                <pre class="code-pre">openclaw gateway status
+openclaw dashboard</pre>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="page-dashboard" class="page hidden">
+      <div class="dashboard-wrap">
+        <aside class="sidebar">
+          <div class="sidebar-brand">
+            <span class="brand-title">Splatter</span>
+            <div class="sidebar-sub1">Brand Visibility Agent</div>
+            <div class="sidebar-sub2">by Riverflex</div>
+          </div>
+
+          <div class="sidebar-tabs">
+            <button class="sidebar-tab active" data-dash="overview">Dashboard</button>
+            <button class="sidebar-tab" data-dash="weekly">Weekly Cycle</button>
+            <button class="sidebar-tab" data-dash="search">Search Visibility</button>
+            <button class="sidebar-tab" data-dash="social">Social Proof</button>
+            <button class="sidebar-tab" data-dash="authority">Authority Building</button>
+            <button class="sidebar-tab" data-dash="review">Review Gate</button>
+            <button class="sidebar-tab" data-dash="kpi">KPI Monitor</button>
+          </div>
+
+          <div class="sidebar-bottom">
+            <div class="sidebar-constraints-title">MVP Constraints</div>
+            <div class="sidebar-constraint">No autonomous posting</div>
+            <div class="sidebar-constraint">No hallucinated contacts</div>
+            <div class="sidebar-constraint">Local deployment</div>
+            <div class="sidebar-constraint">Proof-first outputs only</div>
+            <button id="backToSite" class="back-btn">← Back to Site</button>
+          </div>
+        </aside>
+
+        <div class="dashboard-main">
+          <div id="dash-overview" class="dashboard-page active">
+            <div class="dashboard-heading">
+              <h2>Week 1 — Cycle Overview</h2>
+              <div class="dashboard-meta">Product Owner: Maria Heller · Cycle: Mon 7 Apr – Fri 11 Apr 2025</div>
+            </div>
+
+            <div class="dashboard-top-grid">
+              <div class="card">
+                <div class="stat-value" style="color:var(--text);">9</div>
+                <div class="stat-title">Outputs This Week</div>
+                <div class="stat-sub">across 3 streams</div>
+              </div>
+              <div class="card">
+                <div class="stat-value" style="color:var(--text);">6</div>
+                <div class="stat-title">Awaiting Review</div>
+                <div class="stat-sub">by Product Owner</div>
+              </div>
+              <div class="card">
+                <div class="stat-value" style="color:var(--text);">2</div>
+                <div class="stat-title">Approved</div>
+                <div class="stat-sub">ready to deploy</div>
+              </div>
+              <div class="card">
+                <div class="stat-value" style="color:var(--text);">1</div>
+                <div class="stat-title">Founder Escalations</div>
+                <div class="stat-sub">strategic approval</div>
+              </div>
+            </div>
+
+            <div class="dashboard-mid-grid">
+              <div class="card pad-lg">
+                <div class="card-heading">Output Streams</div>
+                <div class="card-subheading">What Splatter produced this cycle</div>
+                <div class="stream-card blue">
+                  <div class="stream-title">Search Visibility</div>
+                  <div class="stream-sub">5 keywords researched · 1 blog draft</div>
+                </div>
+                <div class="stream-card green">
+                  <div class="stream-title">Social Proof</div>
+                  <div class="stream-sub">3 LinkedIn post drafts</div>
+                </div>
+                <div class="stream-card brown">
+                  <div class="stream-title">Authority Building</div>
+                  <div class="stream-sub">4 backlink targets · 1 outreach email draft</div>
+                </div>
+              </div>
+
+              <div class="card pad-lg">
+                <div class="card-heading">Operational Controls</div>
+                <div class="card-subheading">Guardrails enforced this cycle</div>
+                <div class="guardrail-row">
+                  <div>
+                    <div class="guardrail-name">No autonomous posting</div>
+                    <div class="guardrail-sub">All outputs are drafts only</div>
+                  </div>
+                  <div class="guardrail-status">✓ Enforced</div>
+                </div>
+                <div class="guardrail-row">
+                  <div>
+                    <div class="guardrail-name">No hallucinated contacts</div>
+                    <div class="guardrail-sub">3/4 targets verified via real sources</div>
+                  </div>
+                  <div class="guardrail-status">✓ Enforced</div>
+                </div>
+                <div class="guardrail-row">
+                  <div>
+                    <div class="guardrail-name">Local deployment</div>
+                    <div class="guardrail-sub">Running on local infrastructure</div>
+                  </div>
+                  <div class="guardrail-status">✓ Active</div>
+                </div>
+                <div class="guardrail-row">
+                  <div>
+                    <div class="guardrail-name">Proof-first outputs</div>
+                    <div class="guardrail-sub">All claims traced to approved case proof</div>
+                  </div>
+                  <div class="guardrail-status">✓ Enforced</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="card pad-lg">
+              <div class="pipeline-title">This Week's Pipeline</div>
+              <div class="pipeline-sub">Monday → Friday</div>
+              <div class="pipeline-steps">
+                <span class="step-pill green">Curated Inputs</span>
+                <span class="chev">›</span>
+                <span class="step-pill green">Visibility Plan</span>
+                <span class="chev">›</span>
+                <span class="step-pill green">AI Drafts Generated</span>
+                <span class="chev">›</span>
+                <span class="step-pill orange">PO Review</span>
+                <span class="chev">›</span>
+                <span class="step-pill soft">Founder Gate (if needed)</span>
+                <span class="chev">›</span>
+                <span class="step-pill soft">Deploy (manual)</span>
+              </div>
+            </div>
+          </div>
+
+          <div id="dash-weekly" class="dashboard-page">
+            <div class="dashboard-heading">
+              <h2>Weekly Cycle Workflow</h2>
+              <div class="dashboard-meta">Splatter runs in weekly cycles. Each step is shown below with role ownership and approval gates.</div>
+            </div>
+
+            <div class="workflow-row">
+              <div class="workflow-day">Monday</div>
+              <div class="workflow-line" style="background:var(--blue);"></div>
+              <div class="card">
+                <div class="workflow-head">
+                  <div class="workflow-title">Input Curation</div>
+                  <div class="tag-row"><span class="badge neutral">Product Owner (Maria)</span></div>
+                </div>
+                <div class="workflow-copy">Gather approved case proof, delivery insights, positioning guardrails, and priority themes for the week. Update the input file that Splatter reads.</div>
+              </div>
+            </div>
+
+            <div class="workflow-row">
+              <div class="workflow-day">Monday</div>
+              <div class="workflow-line" style="background:var(--blue);"></div>
+              <div class="card">
+                <div class="workflow-head">
+                  <div class="workflow-title">Visibility Plan</div>
+                  <div class="tag-row"><span class="badge neutral">Splatter (AI)</span><span class="badge review">Approval Gate</span></div>
+                </div>
+                <div class="workflow-copy">Based on curated inputs, Splatter proposes topics, formats, target keywords, and backlink targets for the week. PO reviews plan before generation begins.</div>
+              </div>
+            </div>
+
+            <div class="workflow-row">
+              <div class="workflow-day">Tue–Wed</div>
+              <div class="workflow-line" style="background:var(--green);"></div>
+              <div class="card">
+                <div class="workflow-head">
+                  <div class="workflow-title">Draft Generation</div>
+                  <div class="tag-row"><span class="badge neutral">Splatter (AI)</span></div>
+                </div>
+                <div class="workflow-copy">Splatter produces all drafts: keyword research, 1–2 blog articles, 3 LinkedIn posts, backlink target list, and outreach email drafts. All outputs saved locally.</div>
+              </div>
+            </div>
+
+            <div class="workflow-row">
+              <div class="workflow-day">Thursday</div>
+              <div class="workflow-line" style="background:var(--orange-soft);"></div>
+              <div class="card">
+                <div class="workflow-head">
+                  <div class="workflow-title">Product Owner Review</div>
+                  <div class="tag-row"><span class="badge neutral">Product Owner (Maria)</span><span class="badge review">Approval Gate</span></div>
+                </div>
+                <div class="workflow-copy">Maria reviews all outputs using the Review Checklist. She can approve, request edits, or reject. Outputs that need founder input are flagged.</div>
+              </div>
+            </div>
+
+            <div class="workflow-row">
+              <div class="workflow-day">Thu–Fri</div>
+              <div class="workflow-line" style="background:var(--orange);"></div>
+              <div class="card">
+                <div class="workflow-head">
+                  <div class="workflow-title">Founder Gate (if needed)</div>
+                  <div class="tag-row"><span class="badge neutral">Founders (Jesse + Team)</span><span class="badge review">Approval Gate</span></div>
+                </div>
+                <div class="workflow-copy">Only triggered for strategic content, sensitive claims, or high-visibility outputs. Founders approve or redirect. This gate protects credibility without creating bottlenecks.</div>
+              </div>
+            </div>
+
+            <div class="workflow-row">
+              <div class="workflow-day">Friday</div>
+              <div class="workflow-line" style="background:var(--brown);"></div>
+              <div class="card">
+                <div class="workflow-head">
+                  <div class="workflow-title">Manual Deployment</div>
+                  <div class="tag-row"><span class="badge neutral">Product Owner (Maria)</span></div>
+                </div>
+                <div class="workflow-copy">Approved blog posts are published to CMS. LinkedIn posts are posted by founders or PO. Outreach emails are sent manually. Nothing is automated.</div>
+              </div>
+            </div>
+
+            <div class="workflow-row">
+              <div class="workflow-day">Friday</div>
+              <div class="workflow-line" style="background:#90877e;"></div>
+              <div class="card">
+                <div class="workflow-head">
+                  <div class="workflow-title">KPI Logging</div>
+                  <div class="tag-row"><span class="badge neutral">Product Owner (Maria)</span></div>
+                </div>
+                <div class="workflow-copy">Record outputs produced, approval rates, and any qualitative notes. Update the weekly dashboard. Flag improvements for next cycle.</div>
+              </div>
+            </div>
+          </div>
+
+          <div id="dash-search" class="dashboard-page">
+            <div class="dashboard-heading">
+              <h2>Stream 1: Search Visibility</h2>
+              <div class="dashboard-meta">SEO / GEO / AEO keyword research and blog drafting — designed to rank in traditional and AI-assisted search.</div>
+            </div>
+
+            <div class="card pad-lg" style="margin-bottom:18px;">
+              <div class="card-heading">Keyword Opportunities This Week</div>
+              <div class="card-subheading">Researched keywords with volume, difficulty, and AI-search relevance</div>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Keyword</th>
+                    <th>Volume</th>
+                    <th>Difficulty</th>
+                    <th>Intent</th>
+                    <th>AEO Ready</th>
+                    <th>Priority</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>data analytics consultancy UK</strong></td>
+                    <td>1.2K</td>
+                    <td><span class="badge medium">Medium</span></td>
+                    <td>Commercial</td>
+                    <td><span class="badge aeo">AEO ✓</span></td>
+                    <td><span class="badge high">High</span></td>
+                  </tr>
+                  <tr>
+                    <td><strong>freelance data engineering teams</strong></td>
+                    <td>880</td>
+                    <td><span class="badge low">Low</span></td>
+                    <td>Informational</td>
+                    <td><span class="badge aeo">AEO ✓</span></td>
+                    <td><span class="badge high">High</span></td>
+                  </tr>
+                  <tr>
+                    <td><strong>open talent model consulting</strong></td>
+                    <td>320</td>
+                    <td><span class="badge low">Low</span></td>
+                    <td>Informational</td>
+                    <td>—</td>
+                    <td><span class="badge medium">Medium</span></td>
+                  </tr>
+                  <tr>
+                    <td><strong>hire analytics consultants Europe</strong></td>
+                    <td>2.1K</td>
+                    <td><span class="badge high">High</span></td>
+                    <td>Transactional</td>
+                    <td><span class="badge aeo">AEO ✓</span></td>
+                    <td><span class="badge medium">Medium</span></td>
+                  </tr>
+                  <tr>
+                    <td><strong>boutique consultancy vs big four</strong></td>
+                    <td>590</td>
+                    <td><span class="badge medium">Medium</span></td>
+                    <td>Informational</td>
+                    <td><span class="badge aeo">AEO ✓</span></td>
+                    <td><span class="badge high">High</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="card pad-lg">
+              <div class="card-heading">Blog Draft: Week 1</div>
+              <div class="card-subheading">Draft article generated from keyword research and approved proof</div>
+              <div class="search-bottom-grid">
+                <div>
+                  <div class="article-title">Why Boutique Consultancies Are Winning the Data Analytics Race</div>
+                  <div class="article-meta">
+                    <div><strong>Word count:</strong> 1480</div>
+                    <div><strong>SEO score:</strong> 87/100</div>
+                    <div><strong>Tone:</strong> Senior, calm, evidence-led</div>
+                    <div><strong>AEO optimised:</strong> Yes — answer-first format, structured headings, evidence-backed</div>
+                    <div style="margin-top:10px; display:flex; gap:8px; flex-wrap:wrap;">
+                      <span class="badge draft">Draft</span>
+                      <span class="badge aeo">AEO Optimised</span>
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <div class="mini-title" style="font-weight:800;color:#756d65;text-transform:uppercase;letter-spacing:.6px;">Article Structure</div>
+                  <div class="stream-card blue" style="margin-bottom:8px;">Hook: Industry shift stat</div>
+                  <div class="stream-card blue" style="margin-bottom:8px;">H2: The limitations of traditional consulting</div>
+                  <div class="stream-card blue" style="margin-bottom:8px;">H2: How open-talent models create flexibility</div>
+                  <div class="stream-card blue" style="margin-bottom:8px;">H2: Riverflex's approach — matching problems with specialists</div>
+                  <div class="stream-card blue" style="margin-bottom:8px;">H2: Case proof — IKEA data platform migration</div>
+                  <div class="stream-card blue" style="margin-bottom:0;">CTA: Soft — “See how we work”</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div id="dash-social" class="dashboard-page">
+            <div class="dashboard-heading">
+              <h2>Stream 2: Social Proof</h2>
+              <div class="dashboard-meta">LinkedIn drafts based on Riverflex proof — case outcomes, delivery insights, and positioning. Written in a calm, senior tone.</div>
+            </div>
+
+            <div class="card pad-lg" style="margin-bottom:16px;">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;gap:10px;">
+                <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                  <span class="badge draft" id="social-status-1">Draft</span>
+                  <span class="badge neutral">Case Proof</span>
+                </div>
+                <div class="mini-title" style="margin:0;">Tone: Calm authority</div>
+              </div>
+              <div class="draft-box">
+                <div class="quote">“We helped a global retailer reduce their data pipeline build time by 40%.”</div>
+                <div class="quote-sub">See how we match problems with experts →</div>
+              </div>
+              <div class="action-row">
+                <button class="action-btn approve social-action" data-item="1" data-status="approved">Approve</button>
+                <button class="action-btn edit social-action" data-item="1" data-status="draft">Request Edit</button>
+                <button class="action-btn reject social-action" data-item="1" data-status="rejected">Reject</button>
+              </div>
+            </div>
+
+            <div class="card pad-lg" style="margin-bottom:16px;">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;gap:10px;">
+                <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                  <span class="badge draft" id="social-status-2">Draft</span>
+                  <span class="badge neutral">Delivery Insight</span>
+                </div>
+                <div class="mini-title" style="margin:0;">Tone: Thought leadership</div>
+              </div>
+              <div class="draft-box">
+                <div class="quote">“Most consulting projects fail because the team is assembled for availability, not fit.”</div>
+                <div class="quote-sub">That’s why Riverflex works differently.</div>
+              </div>
+              <div class="action-row">
+                <button class="action-btn approve social-action" data-item="2" data-status="approved">Approve</button>
+                <button class="action-btn edit social-action" data-item="2" data-status="draft">Request Edit</button>
+                <button class="action-btn reject social-action" data-item="2" data-status="rejected">Reject</button>
+              </div>
+            </div>
+
+            <div class="card pad-lg">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;gap:10px;">
+                <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                  <span class="badge review" id="social-status-3">Review</span>
+                  <span class="badge neutral">Positioning</span>
+                </div>
+                <div class="mini-title" style="margin:0;">Tone: Direct, differentiated</div>
+              </div>
+              <div class="draft-box">
+                <div class="quote">“We're not trying to be a smaller version of Deloitte.”</div>
+                <div class="quote-sub">We're building something the industry doesn't have yet.</div>
+              </div>
+              <div class="action-row">
+                <button class="action-btn approve social-action" data-item="3" data-status="approved">Approve</button>
+                <button class="action-btn edit social-action" data-item="3" data-status="draft">Request Edit</button>
+                <button class="action-btn reject social-action" data-item="3" data-status="rejected">Reject</button>
+              </div>
+            </div>
+          </div>
+
+          <div id="dash-authority" class="dashboard-page">
+            <div class="dashboard-heading">
+              <h2>Stream 3: Authority Building</h2>
+              <div class="dashboard-meta">Backlink targets, guest post opportunities, and outreach email drafts — all verified, none hallucinated.</div>
+            </div>
+
+            <div class="card pad-lg" style="margin-bottom:18px;">
+              <div class="card-heading">Backlink &amp; PR Targets</div>
+              <div class="card-subheading">Real targets researched this week — all traceable to verified sources</div>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Target</th>
+                    <th>Type</th>
+                    <th>DA</th>
+                    <th>Angle</th>
+                    <th>Contact</th>
+                    <th>Verified</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>DataDrivenInvestor.com</strong></td>
+                    <td><span class="badge neutral">Guest Post</span></td>
+                    <td>62</td>
+                    <td>How open-talent models change consulting delivery</td>
+                    <td>editor@datadriveninvestor.com</td>
+                    <td><span class="badge verified">Verified</span></td>
+                    <td><span class="badge researched">Researched</span></td>
+                  </tr>
+                  <tr>
+                    <td><strong>Consultancy.uk</strong></td>
+                    <td><span class="badge neutral">PR / Feature</span></td>
+                    <td>58</td>
+                    <td>Riverflex's approach to matching freelance experts with enterprise clients</td>
+                    <td>news@consultancy.uk</td>
+                    <td><span class="badge verified">Verified</span></td>
+                    <td><span class="badge researched">Researched</span></td>
+                  </tr>
+                  <tr>
+                    <td><strong>The Data Scientist Podcast</strong></td>
+                    <td><span class="badge neutral">Podcast</span></td>
+                    <td>41</td>
+                    <td>Building a data consultancy without traditional hierarchy</td>
+                    <td>Via LinkedIn DM</td>
+                    <td><span class="badge unverified">Unverified</span></td>
+                    <td><span class="badge researched">Researched</span></td>
+                  </tr>
+                  <tr>
+                    <td><strong>Medium — Towards Data Science</strong></td>
+                    <td><span class="badge neutral">Syndication</span></td>
+                    <td>95</td>
+                    <td>Republish blog with canonical link</td>
+                    <td>Self-publish</td>
+                    <td><span class="badge verified">Verified</span></td>
+                    <td><span class="badge draft-ready">Draft Ready</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="card pad-lg">
+              <div class="card-heading">Outreach Email Draft</div>
+              <div class="card-subheading">Ready for human review and manual sending</div>
+              <pre class="code-pre" style="background:#f5f0eb;color:#534c45;border-left:3px solid var(--brown);">To: editor@datadriveninvestor.com
 Subject: Guest post pitch: How open-talent models are reshaping consulting
 
 Hi [Editor name],
@@ -968,178 +1377,258 @@ Would this be a fit for your editorial calendar?
 
 Best,
 [Name]
-Riverflex</div>
+Riverflex</pre>
+            </div>
+          </div>
+
+          <div id="dash-review" class="dashboard-page">
+            <div class="dashboard-heading">
+              <h2>Review Gate</h2>
+              <div class="dashboard-meta">Product Owner reviews all outputs before anything goes external. Founder gate is triggered only for flagged items.</div>
+            </div>
+
+            <div class="review-top-grid">
+              <div class="card pad-lg">
+                <div class="card-heading">Review Checklist</div>
+                <div class="card-subheading">Check each item before approving outputs</div>
+                <div class="review-check">
+                  <label><input type="checkbox">All claims are grounded in approved Riverflex proof (no invented outcomes)</label>
+                  <label><input type="checkbox">Tone matches Riverflex positioning: calm, senior, evidence-led</label>
+                  <label><input type="checkbox">No client names used without prior approval</label>
+                  <label><input type="checkbox">Outreach targets are verified against real sources</label>
+                  <label><input type="checkbox">No autonomous posting — all outputs are drafts for manual deployment</label>
+                  <label><input type="checkbox">Content reinforces data &amp; analytics specialism (not generic consulting)</label>
+                </div>
+              </div>
+
+              <div class="card pad-lg">
+                <div class="card-heading">Approval Hierarchy</div>
+                <div class="card-subheading">Who reviews what</div>
+                <div class="approval-card green">
+                  <div class="approval-title">Product Owner (Maria Heller)</div>
+                  <div class="approval-copy">Reviews all outputs weekly. Approves, edits, or rejects. Escalates to founders when needed.</div>
+                </div>
+                <div class="approval-card orange">
+                  <div class="approval-title">Founders (Jesse + leadership)</div>
+                  <div class="approval-copy">Only involved for: strategic messaging, sensitive client references, high-visibility content, or new positioning angles.</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="card pad-lg">
+              <div class="card-heading">Output Queue</div>
+              <div class="card-subheading">All outputs from this week's cycle</div>
+              <div id="review-queue">
+                <div class="queue-row" data-queue="1">
+                  <div class="queue-left"><span class="badge neutral">Blog</span><span class="queue-title">Why Boutique Consultancies Are Winning...</span></div>
+                  <div class="action-row" style="margin:0;">
+                    <span class="badge review">Review</span>
+                    <button class="action-btn icon approve review-action" data-queue="1" data-status="approved">✓</button>
+                    <button class="action-btn icon reject review-action" data-queue="1" data-status="rejected">✕</button>
+                  </div>
+                </div>
+                <div class="queue-row" data-queue="2">
+                  <div class="queue-left"><span class="badge neutral">LinkedIn</span><span class="queue-title">Case Proof — Data pipeline reduction</span></div>
+                  <div class="action-row" style="margin:0;">
+                    <span class="badge review">Review</span>
+                    <button class="action-btn icon approve review-action" data-queue="2" data-status="approved">✓</button>
+                    <button class="action-btn icon reject review-action" data-queue="2" data-status="rejected">✕</button>
+                  </div>
+                </div>
+                <div class="queue-row" data-queue="3">
+                  <div class="queue-left"><span class="badge neutral">LinkedIn</span><span class="queue-title">Delivery Insight — Team assembly</span></div>
+                  <div class="action-row" style="margin:0;">
+                    <span class="badge review">Review</span>
+                    <button class="action-btn icon approve review-action" data-queue="3" data-status="approved">✓</button>
+                    <button class="action-btn icon reject review-action" data-queue="3" data-status="rejected">✕</button>
+                  </div>
+                </div>
+                <div class="queue-row flagged" data-queue="4">
+                  <div class="queue-left"><span class="badge neutral">LinkedIn</span><span class="queue-title">Positioning — Not a smaller Deloitte</span><span class="badge founder">Founder Gate</span></div>
+                  <div class="action-row" style="margin:0;">
+                    <span class="badge review">Review</span>
+                    <button class="action-btn icon approve review-action" data-queue="4" data-status="approved">✓</button>
+                    <button class="action-btn icon reject review-action" data-queue="4" data-status="rejected">✕</button>
+                  </div>
+                </div>
+                <div class="queue-row" data-queue="5">
+                  <div class="queue-left"><span class="badge neutral">Outreach</span><span class="queue-title">Guest post pitch — DataDrivenInvestor</span></div>
+                  <div class="action-row" style="margin:0;">
+                    <span class="badge review">Review</span>
+                    <button class="action-btn icon approve review-action" data-queue="5" data-status="approved">✓</button>
+                    <button class="action-btn icon reject review-action" data-queue="5" data-status="rejected">✕</button>
+                  </div>
+                </div>
+                <div class="queue-row" data-queue="6">
+                  <div class="queue-left"><span class="badge neutral">Targets</span><span class="queue-title">4 backlink targets — verified list</span></div>
+                  <div class="action-row" style="margin:0;">
+                    <span class="badge approved">Approved</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div id="dash-kpi" class="dashboard-page">
+            <div class="dashboard-heading">
+              <h2>KPI Monitor</h2>
+              <div class="dashboard-meta">Weekly operational KPIs and monthly outcome KPIs — tracking whether Splatter is doing its job.</div>
+            </div>
+
+            <div class="card pad-lg" style="margin-bottom:18px;">
+              <div class="card-heading">Weekly Operational KPIs</div>
+              <div class="card-subheading">Is the system producing and getting approved?</div>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Metric</th>
+                    <th>Target</th>
+                    <th>Actual</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><td><strong>Blog drafts produced</strong></td><td>1–2 / week</td><td>1</td><td><span class="badge on-track">On-Track</span></td></tr>
+                  <tr><td><strong>LinkedIn posts drafted</strong></td><td>3 / week</td><td>3</td><td><span class="badge on-track">On-Track</span></td></tr>
+                  <tr><td><strong>Backlink targets researched</strong></td><td>4 / week</td><td>4</td><td><span class="badge on-track">On-Track</span></td></tr>
+                  <tr><td><strong>Outreach emails drafted</strong></td><td>2 / week</td><td>1</td><td><span class="badge behind">Behind</span></td></tr>
+                  <tr><td><strong>Outputs approved by PO</strong></td><td>80%+</td><td>67%</td><td><span class="badge behind">Behind</span></td></tr>
+                  <tr><td><strong>Outputs approved by founders</strong></td><td>As needed</td><td>1 pending</td><td><span class="badge on-track">On-Track</span></td></tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="card pad-lg">
+              <div class="card-heading">Monthly Outcome KPIs</div>
+              <div class="card-subheading">Is visibility actually improving over time?</div>
+              <table>
+                <thead>
+                  <tr>
+                    <th>Metric</th>
+                    <th>Baseline</th>
+                    <th>3-Month Target</th>
+                    <th>Current</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><td><strong>Organic search impressions</strong></td><td>~1,200/mo</td><td>+20% in 3 months</td><td class="kpi-note">Week 1 — baseline</td></tr>
+                  <tr><td><strong>LinkedIn post impressions (avg)</strong></td><td>~400/post</td><td>+30% in 3 months</td><td class="kpi-note">Week 1 — baseline</td></tr>
+                  <tr><td><strong>Backlinks acquired</strong></td><td>0</td><td>2–4 / month</td><td class="kpi-note">0 (prospecting)</td></tr>
+                  <tr><td><strong>Inbound enquiries mentioning content</strong></td><td>0</td><td>1–2 / month</td><td class="kpi-note">Week 1 — baseline</td></tr>
+                  <tr><td><strong>Founder hours on visibility tasks</strong></td><td>~6 hrs/week</td><td>&lt;2 hrs/week</td><td class="kpi-note">Est. 4 hrs (transition)</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
-      </section>
-    `;
-
-    const reviewHTML = `
-      <h2 class="page-title">Review Gate</h2>
-      <div class="subtitle">Product Owner reviews all outputs before anything goes external. Founder gate is triggered only for flagged items.</div>
-
-      <div class="review-grid">
-        ${cardStart('Review Checklist', 'Check each item before approving outputs')}
-          <div class="checklist">
-            <label><input type="checkbox"> <span>All claims are grounded in approved Riverflex proof (no invented outcomes)</span></label>
-            <label><input type="checkbox"> <span>Tone matches Riverflex positioning: calm, senior, evidence-led</span></label>
-            <label><input type="checkbox"> <span>No client names used without prior approval</span></label>
-            <label><input type="checkbox"> <span>Outreach targets are verified against real sources</span></label>
-            <label><input type="checkbox"> <span>No autonomous posting — all outputs are drafts for manual deployment</span></label>
-            <label><input type="checkbox"> <span>Content reinforces data &amp; analytics specialism (not generic consulting)</span></label>
-          </div>
-        ${cardEnd()}
-
-        ${cardStart('Approval Hierarchy', 'Who reviews what')}
-          <div class="approval-card" style="border-left-color:#2f8a52;">
-            <div class="title">Product Owner (Maria Heller)</div>
-            <div class="desc">Reviews all outputs weekly. Approves, edits, or rejects. Escalates to founders when needed.</div>
-          </div>
-          <div class="approval-card" style="border-left-color:#f06522;">
-            <div class="title">Founders (Jesse + leadership)</div>
-            <div class="desc">Only involved for: strategic messaging, sensitive client references, high-visibility content, or new positioning angles.</div>
-          </div>
-        ${cardEnd()}
       </div>
+    </section>
+  </main>
 
-      <section class="card table-card">
-        <div class="section">
-          <h3>Output Queue</h3>
-          <div class="section-sub">All outputs from this week's cycle</div>
-          <div class="queue">
-            <div class="queue-row">
-              <div class="queue-left">${badge('Blog', 'soft')}<div class="queue-title">Why Boutique Consultancies Are Winning...</div></div>
-              <div class="queue-actions">${badge('Review', 'orange')}<button class="icon-btn ok">✓</button><button class="icon-btn no">✕</button></div>
-            </div>
-            <div class="queue-row">
-              <div class="queue-left">${badge('LinkedIn', 'soft')}<div class="queue-title">Case Proof — Data pipeline reduction</div></div>
-              <div class="queue-actions">${badge('Review', 'orange')}<button class="icon-btn ok">✓</button><button class="icon-btn no">✕</button></div>
-            </div>
-            <div class="queue-row">
-              <div class="queue-left">${badge('LinkedIn', 'soft')}<div class="queue-title">Delivery Insight — Team assembly</div></div>
-              <div class="queue-actions">${badge('Review', 'orange')}<button class="icon-btn ok">✓</button><button class="icon-btn no">✕</button></div>
-            </div>
-            <div class="queue-row" style="border-left-color:#f06522;">
-              <div class="queue-left">${badge('LinkedIn', 'soft')}<div class="queue-title">Positioning — Not a smaller Deloitte</div>${badge('Founder Gate', 'orange-strong')}</div>
-              <div class="queue-actions">${badge('Review', 'orange')}<button class="icon-btn ok">✓</button><button class="icon-btn no">✕</button></div>
-            </div>
-            <div class="queue-row">
-              <div class="queue-left">${badge('Outreach', 'soft')}<div class="queue-title">Guest post pitch — DataDrivenInvestor</div></div>
-              <div class="queue-actions">${badge('Review', 'orange')}<button class="icon-btn ok">✓</button><button class="icon-btn no">✕</button></div>
-            </div>
-            <div class="queue-row">
-              <div class="queue-left">${badge('Targets', 'soft')}<div class="queue-title">4 backlink targets — verified list</div></div>
-              <div class="queue-actions">${badge('Approved', 'green')}</div>
-            </div>
-          </div>
-        </div>
-      </section>
-    `;
-
-    const kpiRowsWeekly = [
-      ['Blog drafts produced', '1–2 / week', '1', badge('ON-TRACK', 'green')],
-      ['LinkedIn posts drafted', '3 / week', '3', badge('ON-TRACK', 'green')],
-      ['Backlink targets researched', '4 / week', '4', badge('ON-TRACK', 'green')],
-      ['Outreach emails drafted', '2 / week', '1', badge('BEHIND', 'orange-strong')],
-      ['Outputs approved by PO', '80%+', '67%', badge('BEHIND', 'orange-strong')],
-      ['Outputs approved by founders', 'As needed', '1 pending', badge('ON-TRACK', 'green')]
-    ];
-
-    const kpiRowsMonthly = [
-      ['Organic search impressions', '~1,200/mo', '+20% in 3 months', '<span class="italic-note">Week 1 — baseline</span>'],
-      ['LinkedIn post impressions (avg)', '~400/post', '+30% in 3 months', '<span class="italic-note">Week 1 — baseline</span>'],
-      ['Backlinks acquired', '0', '2–4 / month', '<span class="italic-note">0 (prospecting)</span>'],
-      ['Inbound enquiries mentioning content', '0', '1–2 / month', '<span class="italic-note">Week 1 — baseline</span>'],
-      ['Founder hours on visibility tasks', '~6 hrs/week', '&lt;2 hrs/week', '<span class="italic-note">Est. 4 hrs (transition)</span>']
-    ];
-
-    const kpiHTML = `
-      <h2 class="page-title">KPI Monitor</h2>
-      <div class="subtitle">Weekly operational KPIs and monthly outcome KPIs — tracking whether Splatter is doing its job.</div>
-
-      <section class="card table-card">
-        <div class="section">
-          <h3>Weekly Operational KPIs</h3>
-          <div class="section-sub">Is the system producing and getting approved?</div>
-          <table>
-            <thead>
-              <tr>
-                <th>Metric</th>
-                <th>Target</th>
-                <th>Actual</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              ${kpiRowsWeekly.map(row => `
-                <tr>
-                  <td><strong>${row[0]}</strong></td>
-                  <td>${row[1]}</td>
-                  <td>${row[2]}</td>
-                  <td>${row[3]}</td>
-                </tr>
-              `).join('')}
-            </tbody>
-          </table>
-        </div>
-      </section>
-
-      <section class="card table-card">
-        <div class="section">
-          <h3>Monthly Outcome KPIs</h3>
-          <div class="section-sub">Is visibility actually improving over time?</div>
-          <table>
-            <thead>
-              <tr>
-                <th>Metric</th>
-                <th>Baseline</th>
-                <th>3-month target</th>
-                <th>Current</th>
-              </tr>
-            </thead>
-            <tbody>
-              ${kpiRowsMonthly.map(row => `
-                <tr>
-                  <td><strong>${row[0]}</strong></td>
-                  <td>${row[1]}</td>
-                  <td>${row[2]}</td>
-                  <td>${row[3]}</td>
-                </tr>
-              `).join('')}
-            </tbody>
-          </table>
-        </div>
-      </section>
-    `;
-
-    const htmlBySection = {
-      dashboard: dashboardHTML,
-      weekly: weeklyHTML,
-      search: searchHTML,
-      social: socialHTML,
-      authority: authorityHTML,
-      review: reviewHTML,
-      kpi: kpiHTML
+  <script>
+    const pageMap = {
+      home: document.getElementById('page-home'),
+      architecture: document.getElementById('page-architecture'),
+      setup: document.getElementById('page-setup'),
+      dashboard: document.getElementById('page-dashboard')
     };
 
-    function renderNav() {
-      nav.innerHTML = sections.map(section => `
-        <button class="${section.id === current ? 'active' : ''}" data-section="${section.id}">${section.label}</button>
-      `).join('');
+    const topbar = document.getElementById('topbar');
+    const navButtons = Array.from(document.querySelectorAll('.nav-btn'));
+    const pageButtons = Array.from(document.querySelectorAll('[data-page]'));
+    const backToSite = document.getElementById('backToSite');
 
-      nav.querySelectorAll('button').forEach(button => {
-        button.addEventListener('click', () => {
-          current = button.dataset.section;
-          render();
-        });
+    function setActiveNav(page) {
+      navButtons.forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.page === page);
       });
     }
 
-    function render() {
-      renderNav();
-      view.innerHTML = htmlBySection[current];
+    function showPage(page, pushHash = true) {
+      const target = pageMap[page] ? page : 'home';
+      Object.entries(pageMap).forEach(([key, el]) => {
+        el.classList.toggle('hidden', key !== target);
+      });
+      topbar.classList.toggle('hidden', target === 'dashboard');
+      setActiveNav(target);
+      if (pushHash) {
+        history.replaceState(null, '', '#' + target);
+      }
+      window.scrollTo({ top: 0, behavior: 'auto' });
     }
 
-    render();
+    pageButtons.forEach(btn => {
+      btn.addEventListener('click', () => showPage(btn.dataset.page));
+    });
+
+    backToSite.addEventListener('click', () => {
+      showPage('home');
+    });
+
+    window.addEventListener('hashchange', () => {
+      const hash = (location.hash || '#home').replace('#', '');
+      showPage(hash, false);
+    });
+
+    showPage((location.hash || '#home').replace('#', ''), false);
+
+    const dashTabs = Array.from(document.querySelectorAll('.sidebar-tab'));
+    const dashPages = {
+      overview: document.getElementById('dash-overview'),
+      weekly: document.getElementById('dash-weekly'),
+      search: document.getElementById('dash-search'),
+      social: document.getElementById('dash-social'),
+      authority: document.getElementById('dash-authority'),
+      review: document.getElementById('dash-review'),
+      kpi: document.getElementById('dash-kpi')
+    };
+
+    function showDash(tab) {
+      const target = dashPages[tab] ? tab : 'overview';
+      dashTabs.forEach(btn => btn.classList.toggle('active', btn.dataset.dash === target));
+      Object.entries(dashPages).forEach(([key, el]) => {
+        el.classList.toggle('active', key === target);
+      });
+    }
+
+    dashTabs.forEach(btn => {
+      btn.addEventListener('click', () => showDash(btn.dataset.dash));
+    });
+
+    showDash('overview');
+
+    function updateBadge(el, status) {
+      el.className = 'badge ' + status;
+      const labels = {
+        approved: 'Approved',
+        rejected: 'Rejected',
+        draft: 'Draft',
+        review: 'Review'
+      };
+      el.textContent = labels[status] || status;
+    }
+
+    document.querySelectorAll('.social-action').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = btn.dataset.item;
+        const status = btn.dataset.status;
+        const badge = document.getElementById('social-status-' + id);
+        if (badge) updateBadge(badge, status);
+      });
+    });
+
+    document.querySelectorAll('.review-action').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const row = document.querySelector('[data-queue="' + btn.dataset.queue + '"]');
+        const status = btn.dataset.status;
+        const actionWrap = row.querySelector('.action-row');
+        if (status === 'approved') {
+          actionWrap.innerHTML = '<span class="badge approved">Approved</span>';
+        } else {
+          actionWrap.innerHTML = '<span class="badge red">Rejected</span>';
+        }
+      });
+    });
   </script>
 </body>
 </html>
