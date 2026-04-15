@@ -1,0 +1,1145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Splatter - Brand Visibility Agent</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700;800&family=DM+Serif+Display&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #efebe6;
+      --panel: #f6f3ef;
+      --line: #d8d0c7;
+      --text: #2d2926;
+      --muted: #867d75;
+      --sidebar: #221f1c;
+      --sidebar-line: #413a34;
+      --sidebar-text: #bfb5aa;
+      --green: #2f8a52;
+      --green-soft: #e6f1e8;
+      --blue: #214f77;
+      --orange: #dd930b;
+      --orange-strong: #e36c00;
+      --red: #c43b1c;
+      --red-soft: #f5dfd8;
+      --brown: #8b5b3a;
+      --shadow: 0 0 0 1px rgba(93, 80, 67, 0.08);
+      --radius: 12px;
+    }
+
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      font-family: 'DM Sans', system-ui, -apple-system, sans-serif;
+      color: var(--text);
+      background: var(--bg);
+    }
+
+    .app {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 220px 1fr;
+    }
+
+    .sidebar {
+      background: var(--sidebar);
+      color: white;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      position: sticky;
+      top: 0;
+    }
+
+    .brand {
+      padding: 24px 18px 20px;
+      border-bottom: 1px solid var(--sidebar-line);
+    }
+
+    .brand h1 {
+      margin: 0;
+      font-family: 'DM Serif Display', Georgia, serif;
+      font-size: 24px;
+      line-height: 1;
+      color: #fff;
+    }
+
+    .brand .tag,
+    .brand .byline {
+      font-size: 10px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: #9d9388;
+      margin-top: 6px;
+    }
+
+    .brand .byline {
+      text-transform: none;
+      letter-spacing: 0;
+      font-size: 12px;
+      color: #7e756c;
+    }
+
+    .nav {
+      padding: 10px 0;
+      border-bottom: 1px solid var(--sidebar-line);
+    }
+
+    .nav button {
+      width: 100%;
+      background: transparent;
+      color: var(--sidebar-text);
+      border: 0;
+      text-align: left;
+      font: inherit;
+      padding: 11px 18px;
+      cursor: pointer;
+      border-left: 3px solid transparent;
+      transition: background 0.15s ease;
+      font-size: 14px;
+    }
+
+    .nav button:hover { background: rgba(255,255,255,0.04); }
+    .nav button.active {
+      background: rgba(255,255,255,0.08);
+      color: white;
+      border-left-color: #ff6f1a;
+      font-weight: 700;
+    }
+
+    .sidebar-footer {
+      margin-top: auto;
+      padding: 18px;
+      color: #867d75;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .sidebar-footer .label {
+      font-size: 12px;
+      margin-bottom: 8px;
+      color: #a79d93;
+    }
+
+    .main {
+      padding: 26px 26px 48px;
+    }
+
+    .view {
+      max-width: 1220px;
+      margin: 0 auto;
+    }
+
+    h2.page-title {
+      margin: 0;
+      font-family: 'DM Serif Display', Georgia, serif;
+      font-size: 26px;
+      line-height: 1.15;
+      color: #2f2a27;
+    }
+
+    .subtitle {
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin-top: 24px;
+    }
+
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .stat-card {
+      padding: 22px 18px;
+      text-align: center;
+      min-height: 120px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .stat-value {
+      font-family: 'DM Serif Display', Georgia, serif;
+      font-size: 30px;
+      line-height: 1;
+      margin-bottom: 10px;
+    }
+
+    .stat-label {
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    .stat-note {
+      margin-top: 4px;
+      font-size: 12px;
+      color: #aaa096;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 24px;
+    }
+
+    .section {
+      padding: 20px 22px;
+    }
+
+    .section h3 {
+      margin: 0;
+      font-family: 'DM Serif Display', Georgia, serif;
+      font-size: 18px;
+      line-height: 1.2;
+    }
+
+    .section .section-sub {
+      color: var(--muted);
+      font-size: 14px;
+      margin-top: 6px;
+      margin-bottom: 16px;
+    }
+
+    .stream-box,
+    .control-row,
+    .article-structure li,
+    .queue-row,
+    .approval-card,
+    .social-card blockquote,
+    .codebox {
+      background: #f1ede8;
+      border-radius: 8px;
+    }
+
+    .stream-box {
+      padding: 14px 14px 12px;
+      margin-top: 10px;
+      border-left: 3px solid transparent;
+    }
+
+    .stream-box .name {
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .stream-box .desc {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .control-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+      padding: 10px 12px;
+      margin-top: 8px;
+      background: #e8efe9;
+    }
+
+    .control-row .title {
+      font-weight: 700;
+      font-size: 14px;
+      margin-bottom: 2px;
+    }
+
+    .control-row .desc {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .control-row .state {
+      font-size: 13px;
+      color: var(--green);
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .pipeline {
+      margin-top: 24px;
+      padding: 20px 22px;
+    }
+
+    .pipeline-steps {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 16px;
+    }
+
+    .step-pill {
+      min-width: 170px;
+      text-align: center;
+      padding: 11px 14px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 700;
+      color: white;
+    }
+
+    .step-arrow {
+      color: #8e867f;
+      font-size: 18px;
+    }
+
+    .timeline {
+      margin-top: 26px;
+      display: grid;
+      gap: 14px;
+    }
+
+    .timeline-row {
+      display: grid;
+      grid-template-columns: 100px 4px 1fr;
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    .timeline-day {
+      color: #857c74;
+      font-weight: 700;
+      font-size: 13px;
+      text-transform: uppercase;
+      text-align: right;
+      padding-top: 13px;
+    }
+
+    .timeline-bar {
+      border-radius: 999px;
+    }
+
+    .timeline-card {
+      padding: 18px 20px;
+    }
+
+    .timeline-top,
+    .social-head,
+    .queue-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: flex-start;
+    }
+
+    .timeline-name {
+      font-weight: 700;
+      font-size: 16px;
+      margin-bottom: 8px;
+    }
+
+    .timeline-desc {
+      font-size: 14px;
+      color: #6f665f;
+      line-height: 1.55;
+    }
+
+    .badge-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 5px;
+      padding: 4px 10px;
+      font-size: 11px;
+      line-height: 1;
+      font-weight: 800;
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .badge.gray { background: #d9d2ca; color: #544c46; }
+    .badge.green { background: var(--green); color: #fff; }
+    .badge.blue { background: var(--blue); color: #fff; }
+    .badge.orange { background: var(--orange); color: #fff; }
+    .badge.orange-strong { background: var(--orange-strong); color: #fff; }
+    .badge.red { background: var(--red); color: #fff; }
+    .badge.soft { background: #cbc3ba; color: #5a524b; }
+
+    .table-card { margin-top: 26px; }
+    .table-card .section { padding-bottom: 14px; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+
+    th {
+      text-align: left;
+      padding: 12px 10px;
+      color: #847b73;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      border-bottom: 1px solid #cfc7be;
+    }
+
+    td {
+      padding: 12px 10px;
+      border-bottom: 1px solid #e1dad2;
+      vertical-align: top;
+    }
+
+    td strong { font-weight: 700; }
+
+    .meta-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-top: 18px;
+    }
+
+    .meta-list {
+      display: grid;
+      gap: 10px;
+      font-size: 14px;
+      color: #5e5650;
+    }
+
+    .meta-list div span:first-child {
+      display: inline-block;
+      width: 102px;
+      color: #80776f;
+    }
+
+    .article-structure {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 4px;
+    }
+
+    .article-structure li {
+      padding: 10px 12px;
+      border-left: 3px solid var(--blue);
+      color: #5f5751;
+      font-size: 14px;
+    }
+
+    .social-card {
+      margin-top: 18px;
+      padding: 18px 20px 20px;
+    }
+
+    .tone {
+      color: var(--muted);
+      font-size: 13px;
+      white-space: nowrap;
+    }
+
+    .social-card blockquote {
+      margin: 10px 0 0;
+      padding: 14px 16px;
+      border-left: 3px solid var(--green);
+    }
+
+    .social-card .quote {
+      font-size: 16px;
+      line-height: 1.5;
+      margin-bottom: 8px;
+    }
+
+    .social-card .quote-sub {
+      color: #7d756d;
+      font-style: italic;
+      font-size: 14px;
+    }
+
+    .actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .btn {
+      border: 0;
+      border-radius: 6px;
+      padding: 9px 16px;
+      font: inherit;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      color: #fff;
+    }
+
+    .btn.green { background: var(--green); }
+    .btn.gray { background: #b8afa6; color: #fff; }
+    .btn.red { background: var(--red); }
+
+    .codebox {
+      padding: 16px 18px;
+      font-family: 'JetBrains Mono', ui-monospace, monospace;
+      font-size: 13px;
+      line-height: 1.65;
+      white-space: pre-wrap;
+      color: #473f39;
+    }
+
+    .review-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 20px;
+    }
+
+    .checklist {
+      display: grid;
+      gap: 10px;
+      font-size: 14px;
+      color: #5d554e;
+    }
+
+    .checklist label {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+    }
+
+    .checklist input {
+      margin-top: 2px;
+      accent-color: var(--green);
+    }
+
+    .approval-card {
+      padding: 14px 14px 12px;
+      margin-top: 10px;
+      border-left: 3px solid transparent;
+    }
+
+    .approval-card .title {
+      font-weight: 700;
+      margin-bottom: 4px;
+      font-size: 14px;
+    }
+
+    .approval-card .desc {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .queue {
+      margin-top: 20px;
+    }
+
+    .queue-row {
+      padding: 10px 12px;
+      margin-top: 8px;
+      align-items: center;
+      background: #f2eeea;
+      border-radius: 8px;
+      border-left: 3px solid transparent;
+    }
+
+    .queue-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+      flex-wrap: wrap;
+    }
+
+    .queue-title {
+      font-size: 14px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 100%;
+    }
+
+    .queue-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .icon-btn {
+      width: 36px;
+      height: 30px;
+      border: 0;
+      border-radius: 5px;
+      cursor: pointer;
+      font: inherit;
+      font-weight: 800;
+      color: #fff;
+    }
+
+    .icon-btn.ok { background: var(--green); }
+    .icon-btn.no { background: var(--red); }
+
+    .italic-note {
+      color: #857b73;
+      font-style: italic;
+    }
+
+    .footer-back {
+      display: block;
+      width: 100%;
+      margin-top: 16px;
+      border: 0;
+      border-radius: 6px;
+      background: #d87b2d;
+      color: white;
+      padding: 10px 12px;
+      font: inherit;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    @media (max-width: 1180px) {
+      .stats,
+      .grid-2,
+      .review-grid,
+      .meta-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 900px) {
+      .app { grid-template-columns: 1fr; }
+      .sidebar {
+        min-height: auto;
+        position: static;
+      }
+      .timeline-row { grid-template-columns: 72px 4px 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand">
+        <h1>Splatter</h1>
+        <div class="tag">Brand Visibility Agent</div>
+        <div class="byline">by Riverflex</div>
+      </div>
+      <nav class="nav" id="nav"></nav>
+      <div class="sidebar-footer">
+        <div class="label">MVP Constraints</div>
+        <div>No autonomous posting</div>
+        <div>No hallucinated contacts</div>
+        <div>Local deployment</div>
+        <div>Proof-first outputs only</div>
+        <button class="footer-back" type="button">← Back to Site</button>
+      </div>
+    </aside>
+    <main class="main">
+      <div class="view" id="view"></div>
+    </main>
+  </div>
+
+  <script>
+    const sections = [
+      { id: 'dashboard', label: 'Dashboard' },
+      { id: 'weekly', label: 'Weekly Cycle' },
+      { id: 'search', label: 'Search Visibility' },
+      { id: 'social', label: 'Social Proof' },
+      { id: 'authority', label: 'Authority Building' },
+      { id: 'review', label: 'Review Gate' },
+      { id: 'kpi', label: 'KPI Monitor' }
+    ];
+
+    let current = 'dashboard';
+
+    const nav = document.getElementById('nav');
+    const view = document.getElementById('view');
+
+    function badge(text, cls = 'gray') {
+      return `<span class="badge ${cls}">${text}</span>`;
+    }
+
+    function cardStart(title, sub) {
+      return `<section class="card section"><h3>${title}</h3><div class="section-sub">${sub}</div>`;
+    }
+
+    function cardEnd() { return `</section>`; }
+
+    const dashboardHTML = `
+      <h2 class="page-title">Week 1 — Cycle Overview</h2>
+      <div class="subtitle">Product Owner: Maria Heller · Cycle: Mon 7 Apr – Fri 11 Apr 2025</div>
+
+      <section class="stats">
+        <div class="card stat-card">
+          <div class="stat-value">9</div>
+          <div class="stat-label">Outputs This Week</div>
+          <div class="stat-note">across 3 streams</div>
+        </div>
+        <div class="card stat-card">
+          <div class="stat-value">6</div>
+          <div class="stat-label">Awaiting Review</div>
+          <div class="stat-note">by Product Owner</div>
+        </div>
+        <div class="card stat-card">
+          <div class="stat-value">2</div>
+          <div class="stat-label">Approved</div>
+          <div class="stat-note">ready to deploy</div>
+        </div>
+        <div class="card stat-card">
+          <div class="stat-value">1</div>
+          <div class="stat-label">Founder Escalations</div>
+          <div class="stat-note">strategic approval</div>
+        </div>
+      </section>
+
+      <div class="grid-2">
+        ${cardStart('Output Streams', 'What Splatter produced this cycle')}
+          <div class="stream-box" style="border-left-color:#214f77;">
+            <div class="name">Search Visibility</div>
+            <div class="desc">5 keywords researched · 1 blog draft</div>
+          </div>
+          <div class="stream-box" style="border-left-color:#2f8a52;">
+            <div class="name">Social Proof</div>
+            <div class="desc">3 LinkedIn post drafts</div>
+          </div>
+          <div class="stream-box" style="border-left-color:#8b5b3a;">
+            <div class="name">Authority Building</div>
+            <div class="desc">4 backlink targets · 1 outreach email draft</div>
+          </div>
+        ${cardEnd()}
+
+        ${cardStart('Operational Controls', 'Guardrails enforced this cycle')}
+          <div class="control-row">
+            <div>
+              <div class="title">No autonomous posting</div>
+              <div class="desc">All outputs are drafts only</div>
+            </div>
+            <div class="state">✓ Enforced</div>
+          </div>
+          <div class="control-row">
+            <div>
+              <div class="title">No hallucinated contacts</div>
+              <div class="desc">3/4 targets verified via real sources</div>
+            </div>
+            <div class="state">✓ Enforced</div>
+          </div>
+          <div class="control-row">
+            <div>
+              <div class="title">Local deployment</div>
+              <div class="desc">Running on local infrastructure</div>
+            </div>
+            <div class="state">✓ Active</div>
+          </div>
+          <div class="control-row">
+            <div>
+              <div class="title">Proof-first outputs</div>
+              <div class="desc">All claims traced to approved case proof</div>
+            </div>
+            <div class="state">✓ Enforced</div>
+          </div>
+        ${cardEnd()}
+      </div>
+
+      <section class="card pipeline">
+        <h3>This Week's Pipeline</h3>
+        <div class="section-sub">Monday → Friday</div>
+        <div class="pipeline-steps">
+          <div class="step-pill" style="background:#2f8a52;">Curated Inputs</div>
+          <div class="step-arrow">›</div>
+          <div class="step-pill" style="background:#2f8a52;">Visibility Plan</div>
+          <div class="step-arrow">›</div>
+          <div class="step-pill" style="background:#2f8a52;">AI Drafts Generated</div>
+          <div class="step-arrow">›</div>
+          <div class="step-pill" style="background:#dd930b;">PO Review</div>
+          <div class="step-arrow">›</div>
+          <div class="step-pill" style="background:#cfc8c0; color:#4f4741;">Founder Gate (if needed)</div>
+          <div class="step-arrow">›</div>
+          <div class="step-pill" style="background:#d6d0c8; color:#4f4741;">Deploy (manual)</div>
+        </div>
+      </section>
+    `;
+
+    const weeklySteps = [
+      ['MONDAY', '#214f77', 'Input Curation', 'Gather approved case proof, delivery insights, positioning guardrails, and priority themes for the week. Update the input file that Splatter reads.', [badge('Product Owner (Maria)', 'gray')]],
+      ['MONDAY', '#214f77', 'Visibility Plan', 'Based on curated inputs, Splatter proposes topics, formats, target keywords, and backlink targets for the week. PO reviews plan before generation begins.', [badge('Splatter (AI)', 'gray'), badge('Approval Gate', 'orange')]],
+      ['TUE–WED', '#2f8a52', 'Draft Generation', 'Splatter produces all drafts: keyword research, 1–2 blog articles, 3 LinkedIn posts, backlink target list, and outreach email drafts. All outputs saved locally.', [badge('Splatter (AI)', 'gray')]],
+      ['THURSDAY', '#dd930b', 'Product Owner Review', 'Maria reviews all outputs using the Review Checklist. She can approve, request edits, or reject. Outputs that need founder input are flagged.', [badge('Product Owner (Maria)', 'gray'), badge('Approval Gate', 'orange')]],
+      ['THU–FRI', '#f06522', 'Founder Gate (if needed)', 'Only triggered for strategic content, sensitive claims, or high-visibility outputs. Founders approve or redirect. This gate protects credibility without creating bottlenecks.', [badge('Founders (Jesse + Team)', 'gray'), badge('Approval Gate', 'orange')]],
+      ['FRIDAY', '#8b5b3a', 'Manual Deployment', 'Approved blog posts are published to CMS. LinkedIn posts are posted by founders or PO. Outreach emails are sent manually. Nothing is automated.', [badge('Product Owner (Maria)', 'gray')]],
+      ['FRIDAY', '#8f8a84', 'KPI Logging', 'Record outputs produced, approval rates, and any qualitative notes. Update the weekly dashboard. Flag improvements for next cycle.', [badge('Product Owner (Maria)', 'gray')]]
+    ];
+
+    const weeklyHTML = `
+      <h2 class="page-title">Weekly Cycle Workflow</h2>
+      <div class="subtitle">Splatter runs in weekly cycles. Each step is shown below with role ownership and approval gates.</div>
+      <section class="timeline">
+        ${weeklySteps.map(step => `
+          <div class="timeline-row">
+            <div class="timeline-day">${step[0]}</div>
+            <div class="timeline-bar" style="background:${step[1]}"></div>
+            <div class="card timeline-card">
+              <div class="timeline-top">
+                <div class="timeline-name">${step[2]}</div>
+                <div class="badge-row">${step[4].join('')}</div>
+              </div>
+              <div class="timeline-desc">${step[3]}</div>
+            </div>
+          </div>
+        `).join('')}
+      </section>
+    `;
+
+    const searchRows = [
+      ['data analytics consultancy UK', '1.2K', badge('MEDIUM', 'orange'), 'Commercial', badge('AEO ✓', 'blue'), badge('HIGH', 'orange-strong')],
+      ['freelance data engineering teams', '880', badge('LOW', 'green'), 'Informational', badge('AEO ✓', 'blue'), badge('HIGH', 'orange-strong')],
+      ['open talent model consulting', '320', badge('LOW', 'green'), 'Informational', '–', badge('MEDIUM', 'orange')],
+      ['hire analytics consultants Europe', '2.1K', badge('HIGH', 'orange-strong'), 'Transactional', badge('AEO ✓', 'blue'), badge('MEDIUM', 'orange')],
+      ['boutique consultancy vs big four', '590', badge('MEDIUM', 'orange'), 'Informational', badge('AEO ✓', 'blue'), badge('HIGH', 'orange-strong')]
+    ];
+
+    const searchHTML = `
+      <h2 class="page-title">Stream 1: Search Visibility</h2>
+      <div class="subtitle">SEO / GEO / AEO keyword research and blog drafting — designed to rank in traditional and AI-assisted search.</div>
+
+      <section class="card table-card">
+        <div class="section">
+          <h3>Keyword Opportunities This Week</h3>
+          <div class="section-sub">Researched keywords with volume, difficulty, and AI-search relevance</div>
+          <table>
+            <thead>
+              <tr>
+                <th>Keyword</th>
+                <th>Volume</th>
+                <th>Difficulty</th>
+                <th>Intent</th>
+                <th>AEO Ready</th>
+                <th>Priority</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${searchRows.map(row => `
+                <tr>
+                  <td><strong>${row[0]}</strong></td>
+                  <td>${row[1]}</td>
+                  <td>${row[2]}</td>
+                  <td>${row[3]}</td>
+                  <td>${row[4]}</td>
+                  <td>${row[5]}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="card table-card">
+        <div class="section">
+          <h3>Blog Draft: Week 1</h3>
+          <div class="section-sub">Draft article generated from keyword research and approved proof</div>
+          <div style="font-family:'DM Serif Display', Georgia, serif; font-size:18px; margin-bottom:14px;">Why Boutique Consultancies Are Winning the Data Analytics Race</div>
+          <div class="meta-grid">
+            <div>
+              <div class="meta-list">
+                <div><span>Word count:</span> 1480</div>
+                <div><span>SEO score:</span> 87/100</div>
+                <div><span>Tone:</span> Senior, calm, evidence-led</div>
+                <div><span>AEO optimised:</span> Yes — answer-first format, structured headings, evidence-backed</div>
+              </div>
+              <div class="badge-row" style="margin-top:18px;">
+                ${badge('Draft', 'gray')}
+                ${badge('AEO Optimised', 'blue')}
+              </div>
+            </div>
+            <div>
+              <div style="font-size:12px; text-transform:uppercase; letter-spacing:0.5px; color:#857c74; margin-bottom:10px;">Article Structure</div>
+              <ul class="article-structure">
+                <li>Hook: Industry shift stat</li>
+                <li>H2: The limitations of traditional consulting</li>
+                <li>H2: How open-talent models create flexibility</li>
+                <li>H2: Riverflex's approach — matching problems with specialists</li>
+                <li>H2: Case proof — IKEA data platform migration</li>
+                <li>CTA: Soft — 'See how we work'</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+    `;
+
+    const socialCards = [
+      [badge('Draft', 'gray') + badge('Case Proof', 'soft'), 'Tone: Calm authority', '“We helped a global retailer reduce their data pipeline build time by 40%.”', 'See how we match problems with experts →'],
+      [badge('Draft', 'gray') + badge('Delivery Insight', 'soft'), 'Tone: Thought leadership', '“Most consulting projects fail because the team is assembled for availability, not fit.”', 'That\'s why Riverflex works differently.'],
+      [badge('Review', 'orange') + badge('Positioning', 'soft'), 'Tone: Direct, differentiated', '“We\'re not trying to be a smaller version of Deloitte.”', 'We\'re building something the industry doesn\'t have yet.']
+    ];
+
+    const socialHTML = `
+      <h2 class="page-title">Stream 2: Social Proof</h2>
+      <div class="subtitle">LinkedIn drafts based on Riverflex proof — case outcomes, delivery insights, and positioning. Written in a calm, senior tone.</div>
+      ${socialCards.map(card => `
+        <section class="card social-card">
+          <div class="social-head">
+            <div class="badge-row">${card[0]}</div>
+            <div class="tone">${card[1]}</div>
+          </div>
+          <blockquote>
+            <div class="quote">${card[2]}</div>
+            <div class="quote-sub">${card[3]}</div>
+          </blockquote>
+          <div class="actions">
+            <button class="btn green" type="button">Approve</button>
+            <button class="btn gray" type="button">Request Edit</button>
+            <button class="btn red" type="button">Reject</button>
+          </div>
+        </section>
+      `).join('')}
+    `;
+
+    const authorityRows = [
+      ['DataDrivenInvestor.com', badge('Guest Post', 'soft'), '62', 'How open-talent models change consulting delivery', 'editor@datadrivenin.com', badge('Verified', 'green'), badge('Researched', 'soft')],
+      ['Consultancy.uk', badge('PR / Feature', 'soft'), '58', 'Riverflex\'s approach to matching freelance experts with enterprise clients', 'news@consultancy.uk', badge('Verified', 'green'), badge('Researched', 'soft')],
+      ['The Data Scientist Podcast', badge('Podcast', 'soft'), '41', 'Building a data consultancy without traditional hierarchy', 'Via LinkedIn DM', badge('Unverified', 'orange'), badge('Researched', 'soft')],
+      ['Medium — Towards Data Science', badge('Syndication', 'soft'), '95', 'Republish blog with canonical link', 'Self-publish', badge('Verified', 'green'), badge('Draft Ready', 'green')]
+    ];
+
+    const authorityHTML = `
+      <h2 class="page-title">Stream 3: Authority Building</h2>
+      <div class="subtitle">Backlink targets, guest post opportunities, and outreach email drafts — all verified, none hallucinated.</div>
+
+      <section class="card table-card">
+        <div class="section">
+          <h3>Backlink &amp; PR Targets</h3>
+          <div class="section-sub">Real targets researched this week — all traceable to verified sources</div>
+          <table>
+            <thead>
+              <tr>
+                <th>Target</th>
+                <th>Type</th>
+                <th>DA</th>
+                <th>Angle</th>
+                <th>Contact</th>
+                <th>Verified</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${authorityRows.map(row => `
+                <tr>
+                  <td><strong>${row[0]}</strong></td>
+                  <td>${row[1]}</td>
+                  <td>${row[2]}</td>
+                  <td>${row[3]}</td>
+                  <td>${row[4]}</td>
+                  <td>${row[5]}</td>
+                  <td>${row[6]}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="card table-card">
+        <div class="section">
+          <h3>Outreach Email Draft</h3>
+          <div class="section-sub">Ready for human review and manual sending</div>
+          <div class="codebox">To: editor@datadrivenin.com
+Subject: Guest post pitch: How open-talent models are reshaping consulting
+
+Hi [Editor name],
+
+I'm reaching out from Riverflex, a consultancy that matches client challenges with specialist freelance experts in data and analytics.
+
+We'd love to contribute a guest article on how open-talent models are changing the way enterprise clients access consulting expertise — with real delivery examples from projects with IKEA, Samsung, and Primark.
+
+The piece would be practical and evidence-led, aimed at senior data leaders evaluating consulting partners.
+
+Would this be a fit for your editorial calendar?
+
+Best,
+[Name]
+Riverflex</div>
+        </div>
+      </section>
+    `;
+
+    const reviewHTML = `
+      <h2 class="page-title">Review Gate</h2>
+      <div class="subtitle">Product Owner reviews all outputs before anything goes external. Founder gate is triggered only for flagged items.</div>
+
+      <div class="review-grid">
+        ${cardStart('Review Checklist', 'Check each item before approving outputs')}
+          <div class="checklist">
+            <label><input type="checkbox"> <span>All claims are grounded in approved Riverflex proof (no invented outcomes)</span></label>
+            <label><input type="checkbox"> <span>Tone matches Riverflex positioning: calm, senior, evidence-led</span></label>
+            <label><input type="checkbox"> <span>No client names used without prior approval</span></label>
+            <label><input type="checkbox"> <span>Outreach targets are verified against real sources</span></label>
+            <label><input type="checkbox"> <span>No autonomous posting — all outputs are drafts for manual deployment</span></label>
+            <label><input type="checkbox"> <span>Content reinforces data &amp; analytics specialism (not generic consulting)</span></label>
+          </div>
+        ${cardEnd()}
+
+        ${cardStart('Approval Hierarchy', 'Who reviews what')}
+          <div class="approval-card" style="border-left-color:#2f8a52;">
+            <div class="title">Product Owner (Maria Heller)</div>
+            <div class="desc">Reviews all outputs weekly. Approves, edits, or rejects. Escalates to founders when needed.</div>
+          </div>
+          <div class="approval-card" style="border-left-color:#f06522;">
+            <div class="title">Founders (Jesse + leadership)</div>
+            <div class="desc">Only involved for: strategic messaging, sensitive client references, high-visibility content, or new positioning angles.</div>
+          </div>
+        ${cardEnd()}
+      </div>
+
+      <section class="card table-card">
+        <div class="section">
+          <h3>Output Queue</h3>
+          <div class="section-sub">All outputs from this week's cycle</div>
+          <div class="queue">
+            <div class="queue-row">
+              <div class="queue-left">${badge('Blog', 'soft')}<div class="queue-title">Why Boutique Consultancies Are Winning...</div></div>
+              <div class="queue-actions">${badge('Review', 'orange')}<button class="icon-btn ok">✓</button><button class="icon-btn no">✕</button></div>
+            </div>
+            <div class="queue-row">
+              <div class="queue-left">${badge('LinkedIn', 'soft')}<div class="queue-title">Case Proof — Data pipeline reduction</div></div>
+              <div class="queue-actions">${badge('Review', 'orange')}<button class="icon-btn ok">✓</button><button class="icon-btn no">✕</button></div>
+            </div>
+            <div class="queue-row">
+              <div class="queue-left">${badge('LinkedIn', 'soft')}<div class="queue-title">Delivery Insight — Team assembly</div></div>
+              <div class="queue-actions">${badge('Review', 'orange')}<button class="icon-btn ok">✓</button><button class="icon-btn no">✕</button></div>
+            </div>
+            <div class="queue-row" style="border-left-color:#f06522;">
+              <div class="queue-left">${badge('LinkedIn', 'soft')}<div class="queue-title">Positioning — Not a smaller Deloitte</div>${badge('Founder Gate', 'orange-strong')}</div>
+              <div class="queue-actions">${badge('Review', 'orange')}<button class="icon-btn ok">✓</button><button class="icon-btn no">✕</button></div>
+            </div>
+            <div class="queue-row">
+              <div class="queue-left">${badge('Outreach', 'soft')}<div class="queue-title">Guest post pitch — DataDrivenInvestor</div></div>
+              <div class="queue-actions">${badge('Review', 'orange')}<button class="icon-btn ok">✓</button><button class="icon-btn no">✕</button></div>
+            </div>
+            <div class="queue-row">
+              <div class="queue-left">${badge('Targets', 'soft')}<div class="queue-title">4 backlink targets — verified list</div></div>
+              <div class="queue-actions">${badge('Approved', 'green')}</div>
+            </div>
+          </div>
+        </div>
+      </section>
+    `;
+
+    const kpiRowsWeekly = [
+      ['Blog drafts produced', '1–2 / week', '1', badge('ON-TRACK', 'green')],
+      ['LinkedIn posts drafted', '3 / week', '3', badge('ON-TRACK', 'green')],
+      ['Backlink targets researched', '4 / week', '4', badge('ON-TRACK', 'green')],
+      ['Outreach emails drafted', '2 / week', '1', badge('BEHIND', 'orange-strong')],
+      ['Outputs approved by PO', '80%+', '67%', badge('BEHIND', 'orange-strong')],
+      ['Outputs approved by founders', 'As needed', '1 pending', badge('ON-TRACK', 'green')]
+    ];
+
+    const kpiRowsMonthly = [
+      ['Organic search impressions', '~1,200/mo', '+20% in 3 months', '<span class="italic-note">Week 1 — baseline</span>'],
+      ['LinkedIn post impressions (avg)', '~400/post', '+30% in 3 months', '<span class="italic-note">Week 1 — baseline</span>'],
+      ['Backlinks acquired', '0', '2–4 / month', '<span class="italic-note">0 (prospecting)</span>'],
+      ['Inbound enquiries mentioning content', '0', '1–2 / month', '<span class="italic-note">Week 1 — baseline</span>'],
+      ['Founder hours on visibility tasks', '~6 hrs/week', '&lt;2 hrs/week', '<span class="italic-note">Est. 4 hrs (transition)</span>']
+    ];
+
+    const kpiHTML = `
+      <h2 class="page-title">KPI Monitor</h2>
+      <div class="subtitle">Weekly operational KPIs and monthly outcome KPIs — tracking whether Splatter is doing its job.</div>
+
+      <section class="card table-card">
+        <div class="section">
+          <h3>Weekly Operational KPIs</h3>
+          <div class="section-sub">Is the system producing and getting approved?</div>
+          <table>
+            <thead>
+              <tr>
+                <th>Metric</th>
+                <th>Target</th>
+                <th>Actual</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${kpiRowsWeekly.map(row => `
+                <tr>
+                  <td><strong>${row[0]}</strong></td>
+                  <td>${row[1]}</td>
+                  <td>${row[2]}</td>
+                  <td>${row[3]}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="card table-card">
+        <div class="section">
+          <h3>Monthly Outcome KPIs</h3>
+          <div class="section-sub">Is visibility actually improving over time?</div>
+          <table>
+            <thead>
+              <tr>
+                <th>Metric</th>
+                <th>Baseline</th>
+                <th>3-month target</th>
+                <th>Current</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${kpiRowsMonthly.map(row => `
+                <tr>
+                  <td><strong>${row[0]}</strong></td>
+                  <td>${row[1]}</td>
+                  <td>${row[2]}</td>
+                  <td>${row[3]}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+      </section>
+    `;
+
+    const htmlBySection = {
+      dashboard: dashboardHTML,
+      weekly: weeklyHTML,
+      search: searchHTML,
+      social: socialHTML,
+      authority: authorityHTML,
+      review: reviewHTML,
+      kpi: kpiHTML
+    };
+
+    function renderNav() {
+      nav.innerHTML = sections.map(section => `
+        <button class="${section.id === current ? 'active' : ''}" data-section="${section.id}">${section.label}</button>
+      `).join('');
+
+      nav.querySelectorAll('button').forEach(button => {
+        button.addEventListener('click', () => {
+          current = button.dataset.section;
+          render();
+        });
+      });
+    }
+
+    function render() {
+      renderNav();
+      view.innerHTML = htmlBySection[current];
+    }
+
+    render();
+  </script>
+</body>
+</html>
